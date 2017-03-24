@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+
+    tools:context="applock.mindorks.com.applock.AllAppsAct">
+
+    <LinearLayout
+        android:background="#ECFCD2"
+        android:id="@+id/ll_header"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:weightSum="2"
+        android:gravity="center_vertical"
+        android:layout_height="@dimen/_40sdp">
+
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_15sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:textColor="@android:color/black"
+            android:text="APPS"
+            android:gravity="center|left"
+            android:id="@+id/textView2" />
+
+        <Switch
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right|center"
+            android:text="Select All"
+            android:textColor="@android:color/black"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:textSize="@dimen/_15sdp"
+            android:id="@+id/switch1" />
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_marginLeft="@dimen/_5sdp"
+        android:layout_marginRight="@dimen/_5sdp"
+        android:layout_below="@+id/ll_header"
+        android:id="@+id/my_recycler_view"
+        android:scrollbars="vertical"
+        android:textColor="@android:color/black"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</RelativeLayout>
