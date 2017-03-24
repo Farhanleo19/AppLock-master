@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="THEME FRAGMENT"
-        android:textSize="20dp"
+        android:textSize="@dimen/_20sdp"
         android:layout_centerInParent="true"/>
 
 

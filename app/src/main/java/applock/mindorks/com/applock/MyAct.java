@@ -43,7 +43,7 @@ public class MyAct extends AppCompatActivity implements TabLayout.OnTabSelectedL
         //Adding the tabs using addTab() method
         tabLayout.addTab(tabLayout.newTab().setText("SETTINGS"));
         tabLayout.addTab(tabLayout.newTab().setText("APP LOCK"));
-        tabLayout.addTab(tabLayout.newTab().setText("SCREEN"));
+        tabLayout.addTab(tabLayout.newTab().setText("THEME"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         //Initializing viewPager
