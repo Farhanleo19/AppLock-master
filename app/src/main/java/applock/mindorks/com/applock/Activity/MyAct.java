@@ -1,28 +1,22 @@
-package applock.mindorks.com.applock;
+package applock.mindorks.com.applock.Activity;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import applock.mindorks.com.applock.Adapter.TabsPagerAdapter;
+import applock.mindorks.com.applock.R;
 
-public class MyAct extends AppCompatActivity implements TabLayout.OnTabSelectedListener{
+public class MyAct extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
 
     //This is our tablayout
-    private TabLayout tabLayout;
-
+    public static TabLayout tabLayout;
+    public static TabLayout.Tab tab;
     //This is our viewPager
-    private ViewPager viewPager;
+    public static ViewPager viewPager;
     Context context;
 
     @Override
@@ -30,7 +24,6 @@ public class MyAct extends AppCompatActivity implements TabLayout.OnTabSelectedL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_act);
         context = MyAct.this;
-
 
 
         //Adding toolbar to the activity
@@ -46,6 +39,9 @@ public class MyAct extends AppCompatActivity implements TabLayout.OnTabSelectedL
         tabLayout.addTab(tabLayout.newTab().setText("THEME"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
+        tab = tabLayout.getTabAt(1);
+        tab.select();
+
         //Initializing viewPager
         viewPager = (ViewPager) findViewById(R.id.pager);
 
@@ -54,7 +50,7 @@ public class MyAct extends AppCompatActivity implements TabLayout.OnTabSelectedL
 
         //Adding adapter to pager
         viewPager.setAdapter(adapter);
-
+        viewPager.setCurrentItem(1);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

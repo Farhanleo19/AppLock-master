@@ -112,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
                             if (position == 1) {
                                 getSupportActionBar().setTitle("Locked Applications");
                                 Fragment f = AllAppFragment.newInstance(AppLockConstants.LOCKED);
+
                                 fragmentManager.beginTransaction().replace(R.id.fragment_container, f).commit();
                                 AppLockLogEvents.logEvents(AppLockConstants.MAIN_SCREEN, "Show Locked Applications Clicked", "show_locked_applications_clicked", "");
                             }

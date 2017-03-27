@@ -1,28 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
-    <TextView android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+    <TextView
+        android:layout_alignParentTop="true"
         android:gravity="center"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
         android:text="APP LOCK FRAGMENT"
-        android:textSize="@dimen/_20sdp"
-        android:layout_centerInParent="true"/>
+        android:textSize="@dimen/_15sdp"
+        android:id="@+id/textView3" />
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
+        android:layout_marginLeft="@dimen/_5sdp"
+        android:layout_marginRight="@dimen/_5sdp"
+        android:id="@+id/rv_locked"
+        android:scrollbars="vertical"
+        android:textColor="@android:color/black"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_150sdp"
-        android:id="@+id/listView"
-        android:layout_gravity="center_horizontal" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/textView3"
+        android:layout_above="@+id/b_plus" />
+
 
     <Button
+        android:id="@+id/b_plus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="PLUS"
-        android:id="@+id/b_plus"
-        android:layout_gravity="bottom" />
+        android:layout_alignParentBottom="true"
+        android:text="+"
+        android:textSize="@dimen/_25sdp" />
 
 
-</LinearLayout>
+</RelativeLayout>

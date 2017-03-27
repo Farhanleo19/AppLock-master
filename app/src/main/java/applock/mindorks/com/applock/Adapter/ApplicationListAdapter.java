@@ -10,6 +10,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -127,10 +128,12 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
                 if (isChecked) {
                     AppLockLogEvents.logEvents(AppLockConstants.MAIN_SCREEN, "Lock Clicked", "lock_clicked", appInfo.getPackageName());
                     sharedPreference.addLocked(context, appInfo.getPackageName());
+
                 } else {
                     AppLockLogEvents.logEvents(AppLockConstants.MAIN_SCREEN, "Unlock Clicked", "unlock_clicked", appInfo.getPackageName());
                     sharedPreference.removeLocked(context, appInfo.getPackageName());
                 }
+                Toast.makeText(context, "locked " + sharedPreference.getLocked(context), Toast.LENGTH_SHORT).show();
             }
         });
 

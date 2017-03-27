@@ -13,6 +13,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:gravity="center_vertical"
+            android:id="@+id/ll_enable_lock"
             android:layout_height="wrap_content">
 
             <ImageView
@@ -31,6 +32,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_pass_setting"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:gravity="center_vertical"
@@ -51,6 +53,7 @@
                 android:text="Password Settings"/>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/ll_customize_lock"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:gravity="center_vertical"
@@ -71,6 +74,7 @@
                 android:text="Customize Lock Screens" />
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/ll_themes"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:gravity="center_vertical"
