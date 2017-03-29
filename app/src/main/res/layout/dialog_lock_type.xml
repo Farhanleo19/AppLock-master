@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RadioGroup
+        android:id="@+id/rg_types"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pattern Lock"
+
+            android:id="@+id/rb_pattern"
+            android:checked="false" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="Pin Lock"
+            android:id="@+id/rb_pin"
+            android:checked="false" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Alphabet Lock"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:id="@+id/rb_alpha"
+            android:checked="false" />
+    </RadioGroup>
+
+    <Button
+        android:layout_width="@dimen/_120sdp"
+        android:layout_height="wrap_content"
+        android:text="OK"
+        android:id="@+id/b_ok"
+        android:layout_gravity="center_horizontal" />
+
+
+</LinearLayout>

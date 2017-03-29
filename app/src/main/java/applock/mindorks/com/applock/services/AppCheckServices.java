@@ -9,9 +9,11 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.IBinder;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -19,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -55,6 +58,14 @@ public class AppCheckServices extends Service {
     public static String previousApp = "";
     SharedPreference sharedPreference;
     List<String> pakageName;
+    AlertDialog alertDialog;
+    boolean fake_lock = false;
+    boolean pin_lock = false;
+    boolean alpha_lock = false;
+    boolean pattern_lock = false;
+    SharedPreferences prefs;
+    SharedPreferences.Editor ed;
+    String lockType = "";
 
     @Override
     public void onCreate() {
@@ -64,6 +75,8 @@ public class AppCheckServices extends Service {
         if (sharedPreference != null) {
             pakageName = sharedPreference.getLocked(context);
         }
+        prefs = context.getSharedPreferences("lock_type", Context.MODE_PRIVATE);
+        ed = prefs.edit();
         timer = new Timer("AppCheckServices");
         timer.schedule(updateTask, 1000L, 1000L);
 
@@ -87,6 +100,9 @@ public class AppCheckServices extends Service {
         params.y = ((getApplicationContext().getResources().getDisplayMetrics().heightPixels) / 2);
         windowManager.addView(imageView, params);
 
+
+
+
     }
 
     private TimerTask updateTask = new TimerTask() {
@@ -100,7 +116,27 @@ public class AppCheckServices extends Service {
                     imageView.post(new Runnable() {
                         public void run() {
                             if (!currentApp.matches(previousApp)) {
-                                showUnlockDialog();
+                                fake_lock = prefs.getBoolean("fake_lock", false);
+                                // Getting Saved Preferences
+                                lockType = prefs.getString("lock_type", "");
+                                Log.i("type_select",lockType);
+                                if (lockType.contains("Pin")) {
+                                    // Pin
+                                    showPinLockDialog();
+                                } else if (fake_lock) {
+                                    // Fake
+                                    showFakeLockDialog();
+                                } else if (lockType.contains("Pattern")) {
+                                    // Pattern
+                                    showUnlockDialog();
+                                } else if (lockType.contains("Alphabet")) {
+                                    // Alphabet
+                                    showAlphabetLockDialog();
+                                }
+
+                                // Show Fake Lock Dialog
+
+
                                 previousApp = currentApp;
                             }
                         }
@@ -118,6 +154,19 @@ public class AppCheckServices extends Service {
         }
     };
 
+//    void showFakeLockDialog() {
+//        alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        alertDialog = new AlertDialog.Builder(this)
+//                .setMessage("Unfortunately, app has been stopped?")
+//                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        alertDialog.dismiss();
+//                    }
+//                })
+//                .setIcon(android.R.drawable.ic_dialog_alert)
+//                .show();
+//    }
+
     void showUnlockDialog() {
         showDialog();
     }
@@ -133,6 +182,150 @@ public class AppCheckServices extends Service {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    void showPinLockDialog() {
+        if (context == null)
+            context = getApplicationContext();
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        View promptsView = layoutInflater.inflate(R.layout.pin_lock, null);
+//        Button bOk = (Button) promptsView.findViewById(R.id.b_ok);
+//
+//
+//        bOk.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialog.dismiss();
+//                Intent startMain = new Intent(Intent.ACTION_MAIN);
+//                startMain.addCategory(Intent.CATEGORY_HOME);
+//                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(startMain);
+//            }
+//        });
+
+        dialog = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_PHONE);
+        dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+        dialog.setContentView(promptsView);
+        dialog.getWindow().setGravity(Gravity.CENTER);
+
+        dialog.setOnKeyListener(new Dialog.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialog, int keyCode,
+                                 KeyEvent event) {
+
+                if (keyCode == KeyEvent.KEYCODE_BACK
+                        && event.getAction() == KeyEvent.ACTION_UP) {
+                    Intent startMain = new Intent(Intent.ACTION_MAIN);
+                    startMain.addCategory(Intent.CATEGORY_HOME);
+                    startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(startMain);
+                }
+                return true;
+            }
+        });
+
+        dialog.show();
+
+    }
+
+    void showAlphabetLockDialog() {
+        if (context == null)
+            context = getApplicationContext();
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        View promptsView = layoutInflater.inflate(R.layout.alphabet_lock, null);
+//        Button bOk = (Button) promptsView.findViewById(R.id.b_ok);
+//
+//
+//        bOk.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialog.dismiss();
+//                Intent startMain = new Intent(Intent.ACTION_MAIN);
+//                startMain.addCategory(Intent.CATEGORY_HOME);
+//                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(startMain);
+//            }
+//        });
+
+        dialog = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_PHONE);
+        dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+        dialog.setContentView(promptsView);
+        dialog.getWindow().setGravity(Gravity.CENTER);
+
+        dialog.setOnKeyListener(new Dialog.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialog, int keyCode,
+                                 KeyEvent event) {
+
+                if (keyCode == KeyEvent.KEYCODE_BACK
+                        && event.getAction() == KeyEvent.ACTION_UP) {
+                    Intent startMain = new Intent(Intent.ACTION_MAIN);
+                    startMain.addCategory(Intent.CATEGORY_HOME);
+                    startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(startMain);
+                }
+                return true;
+            }
+        });
+
+        dialog.show();
+
+    }
+
+    void showFakeLockDialog() {
+        if (context == null)
+            context = getApplicationContext();
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        View promptsView = layoutInflater.inflate(R.layout.fake_lock, null);
+        Button bOk = (Button) promptsView.findViewById(R.id.b_ok);
+
+
+        bOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                Intent startMain = new Intent(Intent.ACTION_MAIN);
+                startMain.addCategory(Intent.CATEGORY_HOME);
+                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(startMain);
+            }
+        });
+
+        dialog = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_PHONE);
+        dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+        dialog.setContentView(promptsView);
+        dialog.getWindow().setGravity(Gravity.CENTER);
+
+        dialog.setOnKeyListener(new Dialog.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialog, int keyCode,
+                                 KeyEvent event) {
+
+                if (keyCode == KeyEvent.KEYCODE_BACK
+                        && event.getAction() == KeyEvent.ACTION_UP) {
+                    Intent startMain = new Intent(Intent.ACTION_MAIN);
+                    startMain.addCategory(Intent.CATEGORY_HOME);
+                    startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(startMain);
+                }
+                return true;
+            }
+        });
+
+        dialog.show();
+
     }
 
     void showDialog() {
@@ -235,11 +428,11 @@ public class AppCheckServices extends Service {
                     runningTask.put(usageStats.getLastTimeUsed(), usageStats);
                 }
                 if (runningTask.isEmpty()) {
-                    Log.d(TAG,"isEmpty Yes");
+                    Log.d(TAG, "isEmpty Yes");
                     mpackageName = "";
-                }else {
+                } else {
                     mpackageName = runningTask.get(runningTask.lastKey()).getPackageName();
-                    Log.d(TAG,"isEmpty No : "+mpackageName);
+                    Log.d(TAG, "isEmpty No : " + mpackageName);
                 }
             }
 

@@ -40,10 +40,12 @@
                 android:text="Gallery"
                 android:textSize="20dp" />
 
-            <Switch
-                android:id="@+id/switchView"
+            <ImageButton
+                android:src="@drawable/fake"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:id="@+id/iv_fake_lock" />
+
 
         </LinearLayout>
 

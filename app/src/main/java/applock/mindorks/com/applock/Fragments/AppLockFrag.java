@@ -15,6 +15,7 @@ import android.widget.Toast;
 import applock.mindorks.com.applock.Activity.AllAppsAct;
 import applock.mindorks.com.applock.Activity.MyAct;
 import applock.mindorks.com.applock.Adapter.ApplicationListAdapter;
+import applock.mindorks.com.applock.Adapter.LockedApplicationListAdapter;
 import applock.mindorks.com.applock.AppLockConstants;
 import applock.mindorks.com.applock.MainActivity;
 import applock.mindorks.com.applock.R;
@@ -53,7 +54,7 @@ public class AppLockFrag extends Fragment {
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(context);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new ApplicationListAdapter((MainActivity.getListOfInstalledApp(context)), context, AppLockConstants.LOCKED);
+        mAdapter = new LockedApplicationListAdapter((MainActivity.getListOfInstalledApp(context)), context, AppLockConstants.LOCKED);
         mRecyclerView.setAdapter(mAdapter);
         return rootView;
     }
