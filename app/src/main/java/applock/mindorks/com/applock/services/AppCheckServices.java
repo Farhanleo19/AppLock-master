@@ -22,7 +22,9 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
@@ -35,6 +37,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.TreeMap;
 
+import applock.mindorks.com.applock.Activity.MyAct;
 import applock.mindorks.com.applock.AppLockApplication;
 import applock.mindorks.com.applock.AppLockConstants;
 import applock.mindorks.com.applock.Custom.FlatButton;
@@ -101,8 +104,6 @@ public class AppCheckServices extends Service {
         windowManager.addView(imageView, params);
 
 
-
-
     }
 
     private TimerTask updateTask = new TimerTask() {
@@ -119,7 +120,7 @@ public class AppCheckServices extends Service {
                                 fake_lock = prefs.getBoolean("fake_lock", false);
                                 // Getting Saved Preferences
                                 lockType = prefs.getString("lock_type", "");
-                                Log.i("type_select",lockType);
+                                Log.i("type_select", lockType);
                                 if (lockType.contains("Pin")) {
                                     // Pin
                                     showPinLockDialog();
@@ -189,19 +190,26 @@ public class AppCheckServices extends Service {
             context = getApplicationContext();
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View promptsView = layoutInflater.inflate(R.layout.pin_lock, null);
-//        Button bOk = (Button) promptsView.findViewById(R.id.b_ok);
-//
-//
-//        bOk.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dialog.dismiss();
-//                Intent startMain = new Intent(Intent.ACTION_MAIN);
-//                startMain.addCategory(Intent.CATEGORY_HOME);
-//                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                startActivity(startMain);
-//            }
-//        });
+        TextView tvHeader = (TextView) promptsView.findViewById(R.id.tv_header);
+        tvHeader.setText("PLEASE ENTER YOUR PIN");
+        final EditText edPin = (EditText) promptsView.findViewById(R.id.ed_pin);
+        Button bProceed = (Button) promptsView.findViewById(R.id.b_proceed);
+
+        bProceed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String pinPref = prefs.getString("pin", "");
+                String pin = edPin.getText().toString();
+                if (pin.equals(pinPref)) {
+//                    startActivity(new Intent(context,));
+                    dialog.dismiss();
+                    AppLockLogEvents.logEvents(AppLockConstants.PASSWORD_CHECK_SCREEN, "Correct Password", "correct_password", "");
+                } else {
+
+                    Toast.makeText(context, "WRONG PIN", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         dialog = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
         dialog.setCanceledOnTouchOutside(false);
@@ -237,19 +245,23 @@ public class AppCheckServices extends Service {
             context = getApplicationContext();
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View promptsView = layoutInflater.inflate(R.layout.alphabet_lock, null);
-//        Button bOk = (Button) promptsView.findViewById(R.id.b_ok);
-//
-//
-//        bOk.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dialog.dismiss();
-//                Intent startMain = new Intent(Intent.ACTION_MAIN);
-//                startMain.addCategory(Intent.CATEGORY_HOME);
-//                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                startActivity(startMain);
-//            }
-//        });
+        TextView tvHeader = (TextView) promptsView.findViewById(R.id.tv_header);
+        final EditText edPass = (EditText) promptsView.findViewById(R.id.ed_pass);
+        tvHeader.setText("ENTER YOUR PASSWORD");
+        Button bProceed = (Button) promptsView.findViewById(R.id.b_proceed);
+        bProceed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String passPref = prefs.getString("pass", "");
+                String pass = edPass.getText().toString();
+                if (pass.equals(passPref)) {
+                    dialog.dismiss();
+                    AppLockLogEvents.logEvents(AppLockConstants.PASSWORD_CHECK_SCREEN, "Correct Password", "correct_password", "");
+                } else {
+                    Toast.makeText(context, "WRONG PASSWORD", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         dialog = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
         dialog.setCanceledOnTouchOutside(false);

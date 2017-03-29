@@ -258,9 +258,12 @@ public class MainActivity extends AppCompatActivity {
                     app.setIcon(p.applicationInfo.loadIcon(packageManager));
 
                     //check if the application is not an application system
-//                    Intent launchIntent = app.getLaunchIntent(context);
-//                    if (launchIntent != null && (appInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0)
-                    installedApps.add(app);
+                    Intent launchIntent = app.getLaunchIntent(context);
+                    if (launchIntent != null && (appInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0)
+                    {
+                        installedApps.add(app);
+                    }
+
                 } catch (PackageManager.NameNotFoundException e) {
                     e.printStackTrace();
                 }

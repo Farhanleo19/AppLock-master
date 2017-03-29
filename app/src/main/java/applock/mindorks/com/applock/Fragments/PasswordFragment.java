@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.takwolf.android.lock9.Lock9View;
 
+import applock.mindorks.com.applock.Activity.MyAct;
 import applock.mindorks.com.applock.AppLockConstants;
 import applock.mindorks.com.applock.Custom.FlatButton;
 import applock.mindorks.com.applock.MainActivity;
@@ -71,7 +72,7 @@ public class PasswordFragment extends Fragment {
                 editor.putBoolean(AppLockConstants.IS_PASSWORD_SET, true);
                 editor.commit();
 
-                Intent i = new Intent(getActivity(), MainActivity.class);
+                Intent i = new Intent(getActivity(), MyAct.class);
                 getActivity().startActivity(i);
                 getActivity().finish();
                 AppLockLogEvents.logEvents(AppLockConstants.MAIN_SCREEN, "Confirm Password", "confirm_password", "");

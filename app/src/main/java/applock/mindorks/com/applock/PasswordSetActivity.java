@@ -58,8 +58,8 @@ public class PasswordSetActivity extends AppCompatActivity {
                 editor.commit();
 
 
-                Intent i = new Intent(PasswordSetActivity.this, PasswordRecoverSetActivity.class);
-                startActivity(i);
+//                Intent i = new Intent(PasswordSetActivity.this, PasswordRecoverSetActivity.class);
+//                startActivity(i);
                 finish();
                 AppLockLogEvents.logEvents(AppLockConstants.FIRST_TIME_PASSWORD_SET_SCREEN, "Confirm Password", "confirm_password", "");
             }
