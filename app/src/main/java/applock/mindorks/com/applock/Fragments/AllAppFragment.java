@@ -5,13 +5,18 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+
 import applock.mindorks.com.applock.Adapter.ApplicationListAdapter;
 import applock.mindorks.com.applock.MainActivity;
 import applock.mindorks.com.applock.R;
+import applock.mindorks.com.applock.Utils.FakeLockedModel;
+import applock.mindorks.com.applock.Utils.SharedPreference;
 
 /**
  * Created by amitshekhar on 30/04/15.
@@ -22,6 +27,7 @@ public class AllAppFragment extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     static String requiredAppsType;
+
 
     public static AllAppFragment newInstance(String requiredApps) {
         requiredAppsType = requiredApps;

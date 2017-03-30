@@ -3,8 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
     <item
-        android:id="@+id/action_settings"
-        android:title="@string/action_settings"
+        android:id="@+id/action_lock"
+        android:icon="@drawable/password"
         android:orderInCategory="100"
-        app:showAsAction="never" />
+        app:showAsAction="always"
+        android:title="" />
+    <item
+        android:id="@+id/action_share"
+        android:icon="@drawable/share"
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        android:title="" />
 </menu>

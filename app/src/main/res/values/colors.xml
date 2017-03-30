@@ -3,8 +3,8 @@
 
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
-    <color name="primary">#3F51B5</color>
-    <color name="primary_dark">#303F9F</color>
+    <color name="primary">#2CB7FF</color>
+    <color name="primary_dark">#1F9ADA</color>
     <color name="fbutton_default_color">#3eadeb</color>
     <color name="fbutton_default_shadow_color">#ff3493c8</color>
     <color name="fbutton_color_turquoise">#1abc9c</color>

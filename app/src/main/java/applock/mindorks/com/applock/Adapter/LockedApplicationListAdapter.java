@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +12,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import applock.mindorks.com.applock.AppLockConstants;
 import applock.mindorks.com.applock.Data.AppInfo;
 import applock.mindorks.com.applock.R;
+import applock.mindorks.com.applock.Utils.FakeLockedModel;
 import applock.mindorks.com.applock.Utils.SharedPreference;
 
 /**
@@ -30,6 +34,7 @@ public class LockedApplicationListAdapter extends RecyclerView.Adapter<LockedApp
     SharedPreferences prefs;
     SharedPreferences.Editor ed;
     boolean fake_lock = false;
+    ArrayList<String> fakeLockedList = new ArrayList<String>();
 
     // Provide a reference to the views for each data item
 // Complex data items may need more than one view per item, and
@@ -50,26 +55,6 @@ public class LockedApplicationListAdapter extends RecyclerView.Adapter<LockedApp
             prefs = context.getSharedPreferences(
                     "lock_type", Context.MODE_PRIVATE);
             ed = prefs.edit();
-            iv_fake_lock.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    fake_lock = prefs.getBoolean("fake_lock", false);
-                    if (fake_lock) {
-                        fake_lock = false;
-                        ed.putBoolean("fake_lock", fake_lock);
-                        ed.commit();
-                        Toast.makeText(context, "Fake Lock: OFF", Toast.LENGTH_SHORT).show();
-                    } else {
-                        fake_lock = true;
-                        ed.putBoolean("fake_lock", fake_lock);
-                        ed.commit();
-                        Toast.makeText(context, "Fake Lock: ONN", Toast.LENGTH_SHORT).show();
-                    }
-
-
-
-                }
-            });
 
 
         }
@@ -141,6 +126,47 @@ public class LockedApplicationListAdapter extends RecyclerView.Adapter<LockedApp
         holder.icon.setBackgroundDrawable(appInfo.getIcon());
 
         holder.cardView.setOnClickListener(null);
+        holder.iv_fake_lock.setTag(position);
+
+        holder.iv_fake_lock.setOnClickListener(new View.OnClickListener() {
+                                                   @Override
+                                                   public void onClick(View v) {
+                                                       int pos = (Integer) v.getTag();
+
+                                                       Log.i("name", appInfo.getPackageName());
+                                                       String app = appInfo.getPackageName();
+
+
+//
+
+                                                       fakeLockedList = sharedPreference.getFakeLocked(context);
+
+
+                                                       if (fakeLockedList != null) {
+                                                           Log.i("fake_locked_list", fakeLockedList.toString());
+                                                           for (int i = 0; i < fakeLockedList.size(); i++) {
+                                                               if (appInfo.getPackageName().matches(fakeLockedList.get(i))) {
+                                                                   sharedPreference.removeFakeLocked(context, app);
+                                                               }else{
+                                                                   sharedPreference.addFakeLocked(context, app);
+                                                               }
+                                                               Log.i("all_fake_locks",fakeLockedList.get(i));
+                                                           }
+                                                       }
+
+
+//                fakeLockedList = sharedPreference.getFakeLocked(context);
+
+//                // Add FakeLocked
+//                FakeLockedModel fakeLockedModel = new FakeLockedModel(appInfo.getPackageName(), fake_lock);
+//                sharedPreference.removeFakeLocked(context, fakeLockedModel);
+//                // Remove Fake Locked
+//                FakeLockedModel fakeLockedModel = new FakeLockedModel(appInfo.getPackageName(), fake_lock);
+//                sharedPreference.addFakeLocked(context, fakeLockedModel);
+                                                   }
+                                               }
+
+        );
 
 
     }
@@ -152,6 +178,7 @@ public class LockedApplicationListAdapter extends RecyclerView.Adapter<LockedApp
     }
 
     /*Checks whether a particular app exists in SharedPreferences*/
+
     public boolean checkLockedItem(String checkApp) {
         boolean check = false;
         List<String> locked = sharedPreference.getLocked(context);

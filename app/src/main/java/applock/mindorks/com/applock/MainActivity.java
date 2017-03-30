@@ -7,8 +7,10 @@ import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,6 +19,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -57,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences.Editor editor;
     long numOfTimesAppOpened = 0;
     boolean isRated = false;
+    public static PackageManager packageManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         t.setScreenName(AppLockConstants.MAIN_SCREEN);
         t.send(new HitBuilders.AppViewBuilder().build());
 
-        if (Build.VERSION.SDK_INT > 20){
+        if (Build.VERSION.SDK_INT > 20) {
             Toast.makeText(getApplicationContext(), "If you have not allowed , allow App Lock so that it can work properly from sliding menu options", Toast.LENGTH_LONG).show();
         }
 
@@ -239,35 +243,82 @@ public class MainActivity extends AppCompatActivity {
      *
      * @return ArrayList of installed applications or null
      */
-    public static List<AppInfo> getListOfInstalledApp(Context context) {
-        PackageManager packageManager = context.getPackageManager();
-        List<AppInfo> installedApps = new ArrayList();
-        List<PackageInfo> apps = packageManager.getInstalledPackages(PackageManager.SIGNATURE_MATCH);
-        if (apps != null && !apps.isEmpty()) {
 
-            for (int i = 0; i < apps.size(); i++) {
-                PackageInfo p = apps.get(i);
+    public static List<ApplicationInfo> checkApps(List<ApplicationInfo> list) {
+
+        ArrayList<ApplicationInfo> appList = new ArrayList<ApplicationInfo>();
+
+        for (ApplicationInfo info : list) {
+            try {
+                if (packageManager.getLaunchIntentForPackage(info.packageName) != null) {
+                    appList.add(info);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return appList;
+    }
+
+    public static List<AppInfo> getListOfInstalledApp(Context context) {
+        packageManager = context.getPackageManager();
+        List<AppInfo> installedApps = new ArrayList();
+//        List<PackageInfo> apps = packageManager.getInstalledPackages(PackageManager.SIGNATURE_MATCH);
+        List<ApplicationInfo> applist = null;
+        applist = checkApps(packageManager.getInstalledApplications(PackageManager.GET_META_DATA));
+
+        if (applist != null && !applist.isEmpty()) {
+            for (int i = 0; i < applist.size(); i++) {
                 ApplicationInfo appInfo = null;
                 try {
-                    appInfo = packageManager.getApplicationInfo(p.packageName, 0);
-                    AppInfo app = new AppInfo();
-                    app.setName(p.applicationInfo.loadLabel(packageManager).toString());
-                    app.setPackageName(p.packageName);
-                    app.setVersionName(p.versionName);
-                    app.setVersionCode(p.versionCode);
-                    app.setIcon(p.applicationInfo.loadIcon(packageManager));
+                    ApplicationInfo app = packageManager.getApplicationInfo(applist.get(i).packageName, 0);
+                    Drawable icon = packageManager.getApplicationIcon(app);
+                    String appName = packageManager.getApplicationLabel(app).toString();
 
-                    //check if the application is not an application system
-                    Intent launchIntent = app.getLaunchIntent(context);
-                    if (launchIntent != null && (appInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0)
-                    {
-                        installedApps.add(app);
-                    }
+                    AppInfo info = new AppInfo();
+                    info.setName(appName);
+                    info.setPackageName(app.packageName);
+                    info.setIcon(icon);
+
+                    installedApps.add(info);
+
 
                 } catch (PackageManager.NameNotFoundException e) {
                     e.printStackTrace();
                 }
+
+
             }
+
+//            for (int i = 0; i < apps.size(); i++) {
+//                PackageInfo p = apps.get(i);
+//                ApplicationInfo appInfo = null;
+//                try {
+//
+//
+//                    appInfo = packageManager.getApplicationInfo(p.packageName, 0);
+//                    AppInfo app = new AppInfo();
+//                    app.setName(p.applicationInfo.loadLabel(packageManager).toString());
+//                    app.setPackageName(p.packageName);
+//                    app.setVersionName(p.versionName);
+//                    app.setVersionCode(p.versionCode);
+//                    app.setIcon(p.applicationInfo.loadIcon(packageManager));
+////                    installedApps.add(app);
+//                    //check if the application is not an application system
+//                    Intent launchIntent = app.getLaunchIntent(context);
+//                    if (launchIntent != null && (appInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0) {
+//                        installedApps.add(app);
+//                    }
+//
+//
+//                } catch (PackageManager.NameNotFoundException e) {
+//                    e.printStackTrace();
+//                }
+//
+//
+//            }
+
 
             //sort the list of applications alphabetically
 //            if (installedApps.size() > 0) {
@@ -281,6 +332,7 @@ public class MainActivity extends AppCompatActivity {
 //            }
             return installedApps;
         }
+
         return null;
     }
 
