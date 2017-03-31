@@ -60,7 +60,7 @@ public class SharedPreference {
     }
 
     public void addFakeLocked(Context context, String app) {
-        List<String> lockedApp = getLocked(context);
+        List<String> lockedApp = getFakeLocked(context);
         if (lockedApp == null)
             lockedApp = new ArrayList<String>();
         lockedApp.add(app);

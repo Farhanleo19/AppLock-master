@@ -29,6 +29,8 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
     private Context context;
     SharedPreference sharedPreference;
     String requiredAppsType;
+    public static ArrayList<String> checkedList = new ArrayList<String>();
+    public static ArrayList<String> unCheckedList = new ArrayList<String>();
 
     // Provide a reference to the views for each data item
 // Complex data items may need more than one view per item, and
@@ -37,14 +39,14 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
         // each data item is just a string in this case
 
         public TextView applicationName;
-        public CardView cardView;
+//        public CardView cardView;
         public ImageView icon;
         public Switch switchView;
 
         public ViewHolder(View v) {
             super(v);
             applicationName = (TextView) v.findViewById(R.id.applicationName);
-            cardView = (CardView) v.findViewById(R.id.card_view);
+//            cardView = (CardView) v.findViewById(R.id.card_view);
             icon = (ImageView) v.findViewById(R.id.icon);
             switchView = (Switch) v.findViewById(R.id.switchView);
         }
@@ -116,7 +118,7 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
         holder.icon.setBackgroundDrawable(appInfo.getIcon());
 
         holder.switchView.setOnCheckedChangeListener(null);
-        holder.cardView.setOnClickListener(null);
+//        holder.cardView.setOnClickListener(null);
         if (checkLockedItem(appInfo.getPackageName())) {
             holder.switchView.setChecked(true);
         } else {
@@ -126,23 +128,24 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
         holder.switchView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    AppLockLogEvents.logEvents(AppLockConstants.MAIN_SCREEN, "Lock Clicked", "lock_clicked", appInfo.getPackageName());
-                    sharedPreference.addLocked(context, appInfo.getPackageName());
+                    checkedList.add(appInfo.getPackageName());
+//                    AppLockLogEvents.logEvents(AppLockConstants.MAIN_SCREEN, "Lock Clicked", "lock_clicked", appInfo.getPackageName());
+//                    sharedPreference.addLocked(context, appInfo.getPackageName());
 
                 } else {
-                    AppLockLogEvents.logEvents(AppLockConstants.MAIN_SCREEN, "Unlock Clicked", "unlock_clicked", appInfo.getPackageName());
-                    sharedPreference.removeLocked(context, appInfo.getPackageName());
+                    unCheckedList.add(appInfo.getPackageName());
+//                    AppLockLogEvents.logEvents(AppLockConstants.MAIN_SCREEN, "Unlock Clicked", "unlock_clicked", appInfo.getPackageName());
+//                    sharedPreference.removeLocked(context, appInfo.getPackageName());
                 }
-                Toast.makeText(context, "locked " + sharedPreference.getLocked(context), Toast.LENGTH_SHORT).show();
             }
         });
 
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                holder.switchView.performClick();
-            }
-        });
+//        holder.cardView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                holder.switchView.performClick();
+//            }
+//        });
     }
 
     // Return the size of your dataset (invoked by the layout manager)

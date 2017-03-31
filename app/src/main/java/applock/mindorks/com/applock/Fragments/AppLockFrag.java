@@ -26,8 +26,8 @@ import applock.mindorks.com.applock.R;
 public class AppLockFrag extends Fragment {
     Context context;
     Button bPlus;
-    private RecyclerView mRecyclerView;
-    public RecyclerView.Adapter mAdapter;
+    public static RecyclerView mRecyclerView;
+    public static RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
     @Override
@@ -51,9 +51,11 @@ public class AppLockFrag extends Fragment {
         // in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
 
+
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(context);
         mRecyclerView.setLayoutManager(mLayoutManager);
+
         mAdapter = new LockedApplicationListAdapter((MainActivity.getListOfInstalledApp(context)), context, AppLockConstants.LOCKED);
         mRecyclerView.setAdapter(mAdapter);
         return rootView;

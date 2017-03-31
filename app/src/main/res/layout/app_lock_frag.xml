@@ -2,28 +2,20 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/grey"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_alignParentTop="true"
-        android:gravity="center"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:text="APP LOCK FRAGMENT"
-        android:textSize="@dimen/_15sdp"
-        android:id="@+id/textView3" />
-
     <android.support.v7.widget.RecyclerView
-        android:layout_marginLeft="@dimen/_5sdp"
-        android:layout_marginRight="@dimen/_5sdp"
         android:id="@+id/rv_locked"
-        android:scrollbars="vertical"
-        android:textColor="@android:color/black"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/textView3"
-        android:layout_above="@+id/b_plus" />
+        android:layout_above="@+id/b_plus"
+        android:layout_marginLeft="@dimen/_5sdp"
+        android:layout_marginRight="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+
+        android:scrollbars="vertical"
+        android:textColor="@android:color/black" />
 
 
     <Button
@@ -34,8 +26,8 @@
         android:background="@color/primary"
         android:text="+"
         android:textColor="@color/white"
-        android:textStyle="bold"
-        android:textSize="@dimen/_40sdp" />
+        android:textSize="@dimen/_40sdp"
+        android:textStyle="bold" />
 
 
 </RelativeLayout>

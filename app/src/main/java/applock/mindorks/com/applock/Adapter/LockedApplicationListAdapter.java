@@ -19,6 +19,8 @@ import java.util.List;
 
 import applock.mindorks.com.applock.AppLockConstants;
 import applock.mindorks.com.applock.Data.AppInfo;
+import applock.mindorks.com.applock.Fragments.AppLockFrag;
+import applock.mindorks.com.applock.MainActivity;
 import applock.mindorks.com.applock.R;
 import applock.mindorks.com.applock.Utils.FakeLockedModel;
 import applock.mindorks.com.applock.Utils.SharedPreference;
@@ -27,7 +29,7 @@ import applock.mindorks.com.applock.Utils.SharedPreference;
  * Created by Farhan on 28/04/15.
  */
 public class LockedApplicationListAdapter extends RecyclerView.Adapter<LockedApplicationListAdapter.ViewHolder> {
-    List<AppInfo> installedApps = new ArrayList();
+    List<AppInfo> lockedApps = new ArrayList();
     private Context context;
     SharedPreference sharedPreference;
     String requiredAppsType;
@@ -43,13 +45,13 @@ public class LockedApplicationListAdapter extends RecyclerView.Adapter<LockedApp
         // each data item is just a string in this case
 
         public TextView applicationName;
-        public CardView cardView;
+//        public CardView cardView;
         public ImageView icon, iv_fake_lock;
 
         public ViewHolder(View v) {
             super(v);
             applicationName = (TextView) v.findViewById(R.id.applicationName);
-            cardView = (CardView) v.findViewById(R.id.card_view);
+//            cardView = (CardView) v.findViewById(R.id.card_view);
             icon = (ImageView) v.findViewById(R.id.icon);
             iv_fake_lock = (ImageView) v.findViewById(R.id.iv_fake_lock);
             prefs = context.getSharedPreferences(
@@ -73,7 +75,7 @@ public class LockedApplicationListAdapter extends RecyclerView.Adapter<LockedApp
 
     // Provide a suitable constructor (depends on the kind of dataset)
     public LockedApplicationListAdapter(List<AppInfo> appInfoList, Context context, String requiredAppsType) {
-        installedApps = appInfoList;
+        lockedApps = appInfoList;
         this.context = context;
         this.requiredAppsType = requiredAppsType;
         sharedPreference = new SharedPreference();
@@ -81,27 +83,29 @@ public class LockedApplicationListAdapter extends RecyclerView.Adapter<LockedApp
         List<AppInfo> unlockedFilteredAppList = new ArrayList<AppInfo>();
         boolean flag = true;
         if (requiredAppsType.matches(AppLockConstants.LOCKED) || requiredAppsType.matches(AppLockConstants.UNLOCKED)) {
-            for (int i = 0; i < installedApps.size(); i++) {
+            for (int i = 0; i < lockedApps.size(); i++) {
                 flag = true;
                 if (sharedPreference.getLocked(context) != null) {
                     for (int j = 0; j < sharedPreference.getLocked(context).size(); j++) {
-                        if (installedApps.get(i).getPackageName().matches(sharedPreference.getLocked(context).get(j))) {
-                            lockedFilteredAppList.add(installedApps.get(i));
+                        if (lockedApps.get(i).getPackageName().matches(sharedPreference.getLocked(context).get(j))) {
+                            lockedFilteredAppList.add(lockedApps.get(i));
                             flag = false;
                         }
                     }
                 }
                 if (flag) {
-                    unlockedFilteredAppList.add(installedApps.get(i));
+                    unlockedFilteredAppList.add(lockedApps.get(i));
                 }
             }
             if (requiredAppsType.matches(AppLockConstants.LOCKED)) {
-                installedApps.clear();
-                installedApps.addAll(lockedFilteredAppList);
+                lockedApps.clear();
+                lockedApps.addAll(lockedFilteredAppList);
             } else if (requiredAppsType.matches(AppLockConstants.UNLOCKED)) {
-                installedApps.clear();
-                installedApps.addAll(unlockedFilteredAppList);
+                lockedApps.clear();
+                lockedApps.addAll(unlockedFilteredAppList);
             }
+
+
         }
     }
 
@@ -121,37 +125,53 @@ public class LockedApplicationListAdapter extends RecyclerView.Adapter<LockedApp
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        final AppInfo appInfo = installedApps.get(position);
+        final AppInfo appInfo = lockedApps.get(position);
         holder.applicationName.setText(appInfo.getName());
         holder.icon.setBackgroundDrawable(appInfo.getIcon());
 
-        holder.cardView.setOnClickListener(null);
+//        holder.cardView.setOnClickListener(null);
         holder.iv_fake_lock.setTag(position);
 
         holder.iv_fake_lock.setOnClickListener(new View.OnClickListener() {
                                                    @Override
                                                    public void onClick(View v) {
                                                        int pos = (Integer) v.getTag();
-
+                                                       boolean remove = false;
                                                        Log.i("name", appInfo.getPackageName());
                                                        String app = appInfo.getPackageName();
-
-
-//
-
                                                        fakeLockedList = sharedPreference.getFakeLocked(context);
 
+                                                       if (fakeLockedList != null && fakeLockedList.size() > 0) {
+                                                           for (int i = 0; i < fakeLockedList.size(); i++) {
+                                                               sharedPreference.addFakeLocked(context, app);
+                                                               if (app.matches(fakeLockedList.get(i))) {
 
-                                                       if (fakeLockedList != null) {
+                                                                   sharedPreference.removeFakeLocked(context, app);
+                                                                   fakeLockedList.remove(pos);
+
+                                                               }
+                                                           }
+
+                                                       } else {
+                                                           sharedPreference.addFakeLocked(context, app);
+                                                       }
+//
+
+
+                                                       if (fakeLockedList != null && fakeLockedList.size() > 0) {
                                                            Log.i("fake_locked_list", fakeLockedList.toString());
                                                            for (int i = 0; i < fakeLockedList.size(); i++) {
-                                                               if (appInfo.getPackageName().matches(fakeLockedList.get(i))) {
-                                                                   sharedPreference.removeFakeLocked(context, app);
-                                                               }else{
-                                                                   sharedPreference.addFakeLocked(context, app);
-                                                               }
-                                                               Log.i("all_fake_locks",fakeLockedList.get(i));
+//                                                               if (appInfo.getPackageName().matches(fakeLockedList.get(i))) {
+//                                                                   sharedPreference.removeFakeLocked(context, app);
+//                                                                   fakeLockedList.remove(i);
+//                                                               }else{
+//
+//                                                               }
+
                                                            }
+
+                                                       } else {
+//                                                               sharedPreference.addFakeLocked(context, app);
                                                        }
 
 
@@ -174,7 +194,7 @@ public class LockedApplicationListAdapter extends RecyclerView.Adapter<LockedApp
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return installedApps.size();
+        return lockedApps.size();
     }
 
     /*Checks whether a particular app exists in SharedPreferences*/

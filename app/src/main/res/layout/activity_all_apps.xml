@@ -42,8 +42,10 @@
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
+        android:background="@color/grey"
         android:layout_marginLeft="@dimen/_5sdp"
         android:layout_marginRight="@dimen/_5sdp"
+        android:paddingTop="@dimen/_10sdp"
         android:layout_below="@+id/ll_header"
         android:id="@+id/my_recycler_view"
         android:scrollbars="vertical"
