@@ -31,7 +31,8 @@ public class PasswordSetActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     Context context;
-
+    SharedPreferences pref;
+    SharedPreferences.Editor ed;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +47,8 @@ public class PasswordSetActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(AppLockConstants.MyPREFERENCES, MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
+        pref = getSharedPreferences("lock_type", MODE_PRIVATE);
+        ed = pref.edit();
         //Google Analytics
         Tracker t = ((AppLockApplication) getApplication()).getTracker(AppLockApplication.TrackerName.APP_TRACKER);
         t.setScreenName(AppLockConstants.FIRST_TIME_PASSWORD_SET_SCREEN);
@@ -60,6 +63,9 @@ public class PasswordSetActivity extends AppCompatActivity {
 
 //                Intent i = new Intent(PasswordSetActivity.this, PasswordRecoverSetActivity.class);
 //                startActivity(i);
+                ed.putString("lock_type","Pattern");
+                ed.putBoolean("run_status", false);
+                ed.commit();
                 finish();
                 AppLockLogEvents.logEvents(AppLockConstants.FIRST_TIME_PASSWORD_SET_SCREEN, "Confirm Password", "confirm_password", "");
             }

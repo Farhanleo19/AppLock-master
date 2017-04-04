@@ -1,44 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <RadioGroup
+        android:layout_marginLeft="@dimen/_10sdp"
         android:id="@+id/rg_types"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Pattern Lock"
-
             android:id="@+id/rb_pattern"
-            android:checked="false" />
-
-        <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:text="Pin Lock"
+            android:paddingLeft="@dimen/_10sdp"
+            android:checked="false"
+            android:text="Pattern Lock"
+            android:textSize="@dimen/_18sdp" />
+
+        <RadioButton
             android:id="@+id/rb_pin"
-            android:checked="false" />
-
-        <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Alphabet Lock"
             android:layout_marginTop="@dimen/_5sdp"
+            android:paddingLeft="@dimen/_10sdp"
+            android:checked="false"
+            android:text="Pin Lock"
+            android:textSize="@dimen/_18sdp" />
+
+        <RadioButton
             android:id="@+id/rb_alpha"
-            android:checked="false" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:checked="false"
+            android:text="Alphabet Lock"
+            android:textSize="@dimen/_18sdp" />
     </RadioGroup>
 
     <Button
+        android:id="@+id/b_ok"
         android:layout_width="@dimen/_120sdp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:background="@color/primary"
         android:text="OK"
-        android:id="@+id/b_ok"
-        android:layout_gravity="center_horizontal" />
+        android:textColor="@color/white" />
 
 
 </LinearLayout>

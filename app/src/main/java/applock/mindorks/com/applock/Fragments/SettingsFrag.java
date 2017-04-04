@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ import applock.mindorks.com.applock.services.AppCheckServices;
 public class SettingsFrag extends Fragment {
 
     LinearLayout llThemes, llCustomizeLock, llPassSettings, llEnableLock;
+    ImageView ivEnable;
     SharedPreference sharedPreference;
     Context context;
     TextView tvEnable;
@@ -39,6 +41,8 @@ public class SettingsFrag extends Fragment {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.settings_frag, container, false);
+
+        ivEnable = (ImageView) rootView.findViewById(R.id.iv_enable);
         llThemes = (LinearLayout) rootView.findViewById(R.id.ll_themes);
         llCustomizeLock = (LinearLayout) rootView.findViewById(R.id.ll_customize_lock);
         llPassSettings = (LinearLayout) rootView.findViewById(R.id.ll_pass_setting);
@@ -52,8 +56,11 @@ public class SettingsFrag extends Fragment {
         applock = pref.getBoolean("applock", false);
         if (applock) {
             tvEnable.setText("Enable Applock");
+            ivEnable.setImageResource(R.drawable.enable_button_off);
+
         } else {
             tvEnable.setText("Disable Applock");
+            ivEnable.setImageResource(R.drawable.enable_button_on);
         }
         llEnableLock.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +73,7 @@ public class SettingsFrag extends Fragment {
 
                     context.startService(new Intent(context, AppCheckServices.class));
                     tvEnable.setText("Disable Applock");
+                    ivEnable.setImageResource(R.drawable.enable_button_on);
                     Toast.makeText(context, "Enabled", Toast.LENGTH_SHORT).show();
                 } else {
                     applock = true;
@@ -73,6 +81,7 @@ public class SettingsFrag extends Fragment {
                     ed.commit();
                     context.stopService(new Intent(context, AppCheckServices.class));
                     tvEnable.setText("Enable Applock");
+                    ivEnable.setImageResource(R.drawable.enable_button_off);
                     Toast.makeText(context, "Disabled", Toast.LENGTH_SHORT).show();
                 }
 

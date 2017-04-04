@@ -14,6 +14,8 @@ import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -21,6 +23,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -57,9 +61,10 @@ public class AppCheckServices extends Service {
     ImageView imageView;
     private WindowManager windowManager;
     private Dialog dialog;
+    SharedPreference sharedPreference;
     public static String currentApp = "";
     public static String previousApp = "";
-    SharedPreference sharedPreference;
+
     List<String> pakageName;
     AlertDialog alertDialog;
     boolean fake_lock = false;
@@ -189,27 +194,152 @@ public class AppCheckServices extends Service {
         if (context == null)
             context = getApplicationContext();
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        View promptsView = layoutInflater.inflate(R.layout.pin_lock, null);
-        TextView tvHeader = (TextView) promptsView.findViewById(R.id.tv_header);
-        tvHeader.setText("PLEASE ENTER YOUR PIN");
-        final EditText edPin = (EditText) promptsView.findViewById(R.id.ed_pin);
-        Button bProceed = (Button) promptsView.findViewById(R.id.b_proceed);
+        View view = layoutInflater.inflate(R.layout.pin_lock, null);
+        TextView tvHeader = (TextView) view.findViewById(R.id.tv_header);
+        tvHeader.setText("TYPE YOU SECURITY PIN");
+        final EditText edPin = (EditText) view.findViewById(R.id.ed_pin);
 
-        bProceed.setOnClickListener(new View.OnClickListener() {
+        ImageView ivKey1, ivKey2, ivKey3, ivKey4, ivKey5, ivKey6, ivKey7, ivKey8, ivKey9, ivKey0, ivKeyDel, ivKeyEnter;
+        ivKey0 = (ImageView) view.findViewById(R.id.key_0);
+        ivKey1 = (ImageView) view.findViewById(R.id.key_1);
+        ivKey2 = (ImageView) view.findViewById(R.id.key_2);
+        ivKey3 = (ImageView) view.findViewById(R.id.key_3);
+        ivKey4 = (ImageView) view.findViewById(R.id.key_4);
+        ivKey5 = (ImageView) view.findViewById(R.id.key_5);
+        ivKey6 = (ImageView) view.findViewById(R.id.key_6);
+        ivKey7 = (ImageView) view.findViewById(R.id.key_7);
+        ivKey8 = (ImageView) view.findViewById(R.id.key_8);
+        ivKey9 = (ImageView) view.findViewById(R.id.key_9);
+        ivKeyDel = (ImageView) view.findViewById(R.id.key_del);
+        ivKeyEnter = (ImageView) view.findViewById(R.id.key_enter);
+        ivKey0.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String pinPref = prefs.getString("pin", "");
-                String pin = edPin.getText().toString();
-                if (pin.equals(pinPref)) {
-//                    startActivity(new Intent(context,));
-                    dialog.dismiss();
-                    AppLockLogEvents.logEvents(AppLockConstants.PASSWORD_CHECK_SCREEN, "Correct Password", "correct_password", "");
-                } else {
+                edPin.append("0");
+            }
+        });
+        ivKey1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                edPin.append("1");
+            }
+        });
+        ivKey2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                edPin.append("2");
+            }
+        });
+        ivKey3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                edPin.append("3");
+            }
+        });
+        ivKey4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                edPin.append("4");
+            }
+        });
+        ivKey5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                edPin.append("5");
+            }
+        });
+        ivKey6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                edPin.append("6");
+            }
+        });
+        ivKey7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                edPin.append("7");
+            }
+        });
+        ivKey8.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                edPin.append("8");
+            }
+        });
+        ivKey9.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                edPin.append("9");
+            }
+        });
+        ivKeyDel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // DEL
 
-                    Toast.makeText(context, "WRONG PIN", Toast.LENGTH_SHORT).show();
+                int length = edPin.getText().length();
+                if (length > 0) {
+                    edPin.getText().delete(length - 1, length);
                 }
             }
         });
+        ivKeyEnter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // ENTER
+
+                Intent startMain = new Intent(Intent.ACTION_MAIN);
+                startMain.addCategory(Intent.CATEGORY_HOME);
+                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(startMain);
+            }
+        });
+
+        edPin.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() == 4) {
+                    String pinPref = prefs.getString("pin", "");
+                    String pin = edPin.getText().toString();
+                    if (pin.equals(pinPref)) {
+//                    startActivity(new Intent(context,));
+                        dialog.dismiss();
+                        AppLockLogEvents.logEvents(AppLockConstants.PASSWORD_CHECK_SCREEN, "Correct Password", "correct_password", "");
+                    } else {
+
+                        Toast.makeText(context, "WRONG PIN", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+
+//        Button bProceed = (Button) promptsView.findViewById(R.id.b_proceed);
+
+//        bProceed.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String pinPref = prefs.getString("pin", "");
+//                String pin = edPin.getText().toString();
+//                if (pin.equals(pinPref)) {
+////                    startActivity(new Intent(context,));
+//                    dialog.dismiss();
+//                    AppLockLogEvents.logEvents(AppLockConstants.PASSWORD_CHECK_SCREEN, "Correct Password", "correct_password", "");
+//                } else {
+//
+//                    Toast.makeText(context, "WRONG PIN", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
 
         dialog = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
         dialog.setCanceledOnTouchOutside(false);
@@ -217,7 +347,7 @@ public class AppCheckServices extends Service {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_PHONE);
         dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
-        dialog.setContentView(promptsView);
+        dialog.setContentView(view);
         dialog.getWindow().setGravity(Gravity.CENTER);
 
         dialog.setOnKeyListener(new Dialog.OnKeyListener() {
@@ -241,27 +371,38 @@ public class AppCheckServices extends Service {
     }
 
     void showAlphabetLockDialog() {
+        // Open Keyboard
+
+//        ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+        // Open Keyboard
         if (context == null)
             context = getApplicationContext();
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View promptsView = layoutInflater.inflate(R.layout.alphabet_lock, null);
         TextView tvHeader = (TextView) promptsView.findViewById(R.id.tv_header);
         final EditText edPass = (EditText) promptsView.findViewById(R.id.ed_pass);
+
+
+
         tvHeader.setText("ENTER YOUR PASSWORD");
-        Button bProceed = (Button) promptsView.findViewById(R.id.b_proceed);
-        bProceed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String passPref = prefs.getString("pass", "");
-                String pass = edPass.getText().toString();
-                if (pass.equals(passPref)) {
-                    dialog.dismiss();
-                    AppLockLogEvents.logEvents(AppLockConstants.PASSWORD_CHECK_SCREEN, "Correct Password", "correct_password", "");
-                } else {
-                    Toast.makeText(context, "WRONG PASSWORD", Toast.LENGTH_SHORT).show();
+//        Button bProceed = (Button) promptsView.findViewById(R.id.b_proceed);
+        edPass.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
+                    String passPref = prefs.getString("pass", "");
+                    String pass = edPass.getText().toString();
+
+                    if (pass.equals(passPref)) {
+                        dialog.dismiss();
+                        AppLockLogEvents.logEvents(AppLockConstants.PASSWORD_CHECK_SCREEN, "Correct Password", "correct_password", "");
+                    } else {
+                        Toast.makeText(context, "WRONG PASSWORD", Toast.LENGTH_SHORT).show();
+                    }
                 }
+                return false;
             }
         });
+
 
         dialog = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
         dialog.setCanceledOnTouchOutside(false);
@@ -271,6 +412,7 @@ public class AppCheckServices extends Service {
         dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         dialog.setContentView(promptsView);
         dialog.getWindow().setGravity(Gravity.CENTER);
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 
         dialog.setOnKeyListener(new Dialog.OnKeyListener() {
             @Override
@@ -289,6 +431,7 @@ public class AppCheckServices extends Service {
         });
 
         dialog.show();
+
 
     }
 

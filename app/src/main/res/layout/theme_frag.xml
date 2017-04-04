@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
 
+
     <GridView
         android:id="@+id/grid_view"
         android:layout_width="match_parent"
@@ -13,5 +14,14 @@
         android:horizontalSpacing="@dimen/_5sdp"
         android:layout_margin="@dimen/_10sdp"
         android:verticalSpacing="@dimen/_10sdp"
+        android:visibility="gone"
         android:numColumns="3" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Themes are coming soon . . ."
+        android:textSize="@dimen/_20sdp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

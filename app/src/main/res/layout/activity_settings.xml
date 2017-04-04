@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/grey"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
@@ -16,11 +17,13 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <LinearLayout
+        android:layout_marginTop="@dimen/_5sdp"
         android:id="@+id/ll_locktype"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/_5sdp"
         android:layout_marginRight="@dimen/_5sdp"
+        android:background="@drawable/boarder"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -30,14 +33,15 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Lock Type"
+            android:textStyle="bold"
             android:textColor="@color/black"
             android:textSize="@dimen/_20sdp" />
 
         <ImageView
 
             android:id="@+id/iv_locktype"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
             android:layout_gravity="right"
             android:src="@drawable/password" />
 
@@ -48,7 +52,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/_5sdp"
         android:layout_marginRight="@dimen/_5sdp"
-        android:layout_marginTop="@dimen/_10sdp"
+        android:background="@drawable/boarder"
+        android:layout_marginTop="@dimen/_5sdp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -70,7 +75,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/_5sdp"
         android:layout_marginRight="@dimen/_5sdp"
-        android:layout_marginTop="@dimen/_10sdp"
+        android:background="@drawable/boarder"
+        android:layout_marginTop="@dimen/_5sdp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 

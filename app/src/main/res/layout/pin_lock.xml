@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:gravity="center"
+    android:background="@drawable/bg"
     android:orientation="vertical">
 
     <TextView
@@ -11,21 +12,164 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/_20sdp"
-        android:text="ENTER PIN TO UNLOCK"
-        android:textColor="@color/black"
+        android:text="TYPE YOU SECURITY PIN"
+        android:textColor="@color/white"
         android:textSize="@dimen/_20sdp" />
 
-    <EditText
-        android:id="@+id/ed_pin"
-        android:layout_width="@dimen/_140sdp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/ed_pin"
+                android:layout_width="155dp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:gravity="center"
+                android:hint="Your Pin"
+                android:inputType="number"
+                android:focusable="false"
+                android:maxLength="4"
+                android:textColor="@color/white" />
+
+            <ImageView
+                android:id="@+id/key_del"
+                android:layout_width="@dimen/_68sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_20sdp"
+                android:layout_toRightOf="@+id/ed_pin"
+                android:layout_weight="1"
+                android:src="@drawable/keyboard_back_btns" />
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/_25sdp"
-        android:ems="10"
+        android:layout_marginTop="@dimen/_10sdp"
         android:gravity="center"
-        android:hint="Your Pin"
-        android:inputType="number"
-        android:maxLength="4" />
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <ImageView
+            android:id="@+id/key_1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/keyboard_btns_1" />
+
+        <ImageView
+            android:id="@+id/key_2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/keyboard_btns_2" />
+
+        <ImageView
+            android:id="@+id/key_3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/keyboard_btns_3" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <ImageView
+            android:id="@+id/key_4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/keyboard_btns_4" />
+
+        <ImageView
+            android:id="@+id/key_5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/keyboard_btns_5" />
+
+        <ImageView
+            android:id="@+id/key_6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/keyboard_btns_6" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <ImageView
+            android:id="@+id/key_7"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/keyboard_btns_7" />
+
+        <ImageView
+            android:id="@+id/key_8"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/keyboard_btns_8" />
+
+        <ImageView
+            android:id="@+id/key_9"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/keyboard_btns_9" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="right"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+
+        <ImageView
+            android:id="@+id/key_0"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/keyboard_btns_0" />
+
+        <ImageView
+            android:id="@+id/key_enter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            android:src="@drawable/keyboard_btns_enter" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/b_proceed"
@@ -33,5 +177,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/_10sdp"
-        android:text="Proceed" />
+        android:text="Proceed"
+        android:visibility="gone" />
 </LinearLayout>

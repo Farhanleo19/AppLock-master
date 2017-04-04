@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@drawable/bg"
+
     android:orientation="vertical">
 
     <TextView
@@ -10,9 +11,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_40sdp"
         android:text="ENTER PASSWORD TO UNLOCK"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="@dimen/_20sdp" />
 
     <EditText
@@ -20,11 +21,16 @@
         android:layout_width="@dimen/_140sdp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/_25sdp"
+        android:layout_marginTop="@dimen/_30sdp"
         android:ems="10"
         android:gravity="center"
+        android:textColor="@color/white"
         android:inputType="text"
-        android:maxLength="15" />
+        android:maxLength="15"
+        android:singleLine="true">
+
+        <requestFocus />
+    </EditText>
 
     <Button
         android:id="@+id/b_proceed"
@@ -32,5 +38,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/_10sdp"
-        android:text="Proceed" />
+        android:text="Proceed"
+        android:visibility="gone" />
 </LinearLayout>

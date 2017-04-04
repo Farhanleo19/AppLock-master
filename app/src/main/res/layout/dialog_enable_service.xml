@@ -14,16 +14,20 @@
             android:width="@dimen/_180sdp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Enable / Disable"
-            android:id="@+id/button2" />
+            android:text="Enable AppLock"
+            android:textColor="@color/white"
+            android:background="@color/primary"
+            android:id="@+id/b_enable" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:width="@dimen/_180sdp"
+            android:textColor="@color/white"
+            android:background="@color/primary"
             android:layout_marginTop="@dimen/_10sdp"
             android:text="Main"
-            android:id="@+id/button3" />
+            android:id="@+id/b_main" />
 
 
     </LinearLayout>
