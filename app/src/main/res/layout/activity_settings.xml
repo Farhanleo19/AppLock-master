@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Enabled lock type"
-            android:textColor="#A50819"
+            android:textColor="@color/red"
             android:textSize="@dimen/_20sdp" />
 
 
@@ -90,4 +90,22 @@
 
 
     </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:gravity="bottom">
+
+        <Button
+            android:layout_width="match_parent"
+            android:background="@color/primary"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="DONE"
+            android:id="@+id/b_done"
+            android:layout_gravity="center_horizontal" />
+    </LinearLayout>
+
 </LinearLayout>

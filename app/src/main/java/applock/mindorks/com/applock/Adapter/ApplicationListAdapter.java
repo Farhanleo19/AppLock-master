@@ -15,6 +15,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import applock.mindorks.com.applock.Activity.AllAppsAct;
 import applock.mindorks.com.applock.AppLockConstants;
 import applock.mindorks.com.applock.Data.AppInfo;
 import applock.mindorks.com.applock.R;
@@ -25,12 +26,12 @@ import applock.mindorks.com.applock.Utils.SharedPreference;
  * Created by Farhan on 28/04/15.
  */
 public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationListAdapter.ViewHolder> {
-    List<AppInfo> installedApps = new ArrayList();
+    public static List<AppInfo> installedApps = new ArrayList();
     private Context context;
     SharedPreference sharedPreference;
     String requiredAppsType;
-    public static ArrayList<String> checkedList = new ArrayList<String>();
-    public static ArrayList<String> unCheckedList = new ArrayList<String>();
+//    public static ArrayList<String> checkedList = new ArrayList<String>();
+//    public static ArrayList<String> unCheckedList = new ArrayList<String>();
 
     // Provide a reference to the views for each data item
 // Complex data items may need more than one view per item, and
@@ -39,7 +40,7 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
         // each data item is just a string in this case
 
         public TextView applicationName;
-//        public CardView cardView;
+        //        public CardView cardView;
         public ImageView icon;
         public Switch switchView;
 
@@ -117,25 +118,39 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
         holder.applicationName.setText(appInfo.getName());
         holder.icon.setBackgroundDrawable(appInfo.getIcon());
 
+//        if (AllAppsAct.selectAll) {
+//            holder.switchView.setChecked(true);
+//        } else {
+//            holder.switchView.setChecked(false);
+//        }
+
+
         holder.switchView.setOnCheckedChangeListener(null);
 //        holder.cardView.setOnClickListener(null);
+
         if (checkLockedItem(appInfo.getPackageName())) {
             holder.switchView.setChecked(true);
         } else {
             holder.switchView.setChecked(false);
         }
+        if(AllAppsAct.selectAll){
+            holder.switchView.setChecked(true);
+
+        }
 
         holder.switchView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    checkedList.add(appInfo.getPackageName());
-//                    AppLockLogEvents.logEvents(AppLockConstants.MAIN_SCREEN, "Lock Clicked", "lock_clicked", appInfo.getPackageName());
-//                    sharedPreference.addLocked(context, appInfo.getPackageName());
+//                    checkedList.add(appInfo.getPackageName());
+
+                    AppLockLogEvents.logEvents(AppLockConstants.MAIN_SCREEN, "Lock Clicked", "lock_clicked", appInfo.getPackageName());
+                    sharedPreference.addLocked(context, appInfo.getPackageName());
 
                 } else {
-                    unCheckedList.add(appInfo.getPackageName());
-//                    AppLockLogEvents.logEvents(AppLockConstants.MAIN_SCREEN, "Unlock Clicked", "unlock_clicked", appInfo.getPackageName());
-//                    sharedPreference.removeLocked(context, appInfo.getPackageName());
+//                    unCheckedList.add(appInfo.getPackageName());
+
+                    AppLockLogEvents.logEvents(AppLockConstants.MAIN_SCREEN, "Unlock Clicked", "unlock_clicked", appInfo.getPackageName());
+                    sharedPreference.removeLocked(context, appInfo.getPackageName());
                 }
             }
         });

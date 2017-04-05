@@ -57,7 +57,7 @@ android:background="@android:color/transparent"
         </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_10sdp"
+        android:layout_height="@dimen/_7sdp"
         android:background="@color/grey"
         android:id="@+id/viewStub" />
 

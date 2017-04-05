@@ -41,15 +41,18 @@ public class SettingsAct extends AppCompatActivity {
     ImageView ivLockType;
     TextView tvLockType;
     Button bOk;
+    Button bDone;
     RadioGroup rg;
     RadioButton rbPattern, rbPin, rbAlpha;
     SharedPreferences pref;
     SharedPreferences.Editor ed;
     int selectedId = 0;
     LinearLayout llChangePass;
+    LinearLayout llLockType;
     Context context;
     String lockType = "";
     private Dialog dialog;
+    public static boolean changePass = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +61,10 @@ public class SettingsAct extends AppCompatActivity {
         ivLockType = (ImageView) findViewById(R.id.iv_locktype);
         tvLockType = (TextView) findViewById(R.id.tv_lock_type);
         llChangePass = (LinearLayout) findViewById(R.id.ll_changepass);
+        llLockType = (LinearLayout) findViewById(R.id.ll_locktype);
         pref = getSharedPreferences("lock_type", MODE_PRIVATE);
+        bDone = (Button) findViewById(R.id.b_done);
+
         ed = pref.edit();
         lockType = pref.getString("lock_type", "");
         selectedId = pref.getInt("selected_id", 0);
@@ -74,14 +80,14 @@ public class SettingsAct extends AppCompatActivity {
             ivLockType.setImageResource(R.drawable.passward_icon);
         }
         if (lockType.equals("")) {
-            tvLockType.setText("Pattern");
+            tvLockType.setText("Pattern Lock");
             lockType = "Pattern";
         }
         context = SettingsAct.this;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ivLockType.setOnClickListener(new View.OnClickListener() {
+        llLockType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectLockType();
@@ -91,6 +97,7 @@ public class SettingsAct extends AppCompatActivity {
         llChangePass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                changePass = true;
                 if (lockType.contains("Pattern")) {
                     startActivity(new Intent(SettingsAct.this, PasswordSetActivity.class));
 
@@ -100,6 +107,37 @@ public class SettingsAct extends AppCompatActivity {
                     showAlphabetLockDialog();
                 }
 
+            }
+        });
+
+        bDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (lockType.contains("Pattern")) {
+                    ed.putString("lock_type", lockType);
+                    ed.commit();
+                    finish();
+                }
+                if (lockType.contains("Pin")) {
+                    String pin = pref.getString("pin", "");
+                    if (pin.length() > 0) {
+                        ed.putString("lock_type", lockType);
+                        ed.commit();
+                        finish();
+                    } else {
+                        Toast.makeText(context, "Please set Pin first", Toast.LENGTH_SHORT).show();
+                    }
+
+                } else if (lockType.contains("Alphabet")) {
+                    String pass = pref.getString("pass", "");
+                    if (pass.length() > 0) {
+                        ed.putString("lock_type", lockType);
+                        ed.commit();
+                        finish();
+                    } else {
+                        Toast.makeText(context, "Please set Password first", Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         });
     }
@@ -133,7 +171,7 @@ public class SettingsAct extends AppCompatActivity {
 
                 RadioButton rb = (RadioButton) dialog.findViewById(selectedId);
                 lockType = rb.getText().toString();
-                ed.putString("lock_type", lockType);
+
                 ed.putInt("selected_id", selectedId);
                 ed.commit();
                 tvLockType.setText(lockType);
@@ -271,33 +309,33 @@ public class SettingsAct extends AppCompatActivity {
             }
         });
 
-        edPin.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (s.length() == 4) {
-                    String pinPref = pref.getString("pin", "");
-                    String pin = edPin.getText().toString();
-                    if (pin.equals(pinPref)) {
-//                    startActivity(new Intent(context,));
-                        dialog.dismiss();
-                        AppLockLogEvents.logEvents(AppLockConstants.PASSWORD_CHECK_SCREEN, "Correct Password", "correct_password", "");
-                    } else {
-
-                        Toast.makeText(context, "WRONG PIN", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-        });
+//        edPin.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                if (s.length() == 4) {
+//                    String pinPref = pref.getString("pin", "");
+//                    String pin = edPin.getText().toString();
+//                    if (pin.equals(pinPref)) {
+////                    startActivity(new Intent(context,));
+//                        dialog.dismiss();
+//                        AppLockLogEvents.logEvents(AppLockConstants.PASSWORD_CHECK_SCREEN, "Correct Password", "correct_password", "");
+//                    } else {
+//
+//                        Toast.makeText(context, "WRONG PIN", Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//            }
+//        });
 
         dialog = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
         dialog.setCanceledOnTouchOutside(false);
@@ -340,11 +378,11 @@ public class SettingsAct extends AppCompatActivity {
                 if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
 
                     String newPass = edPass.getText().toString();
-                    if(newPass.length()>3){
+                    if (newPass.length() > 3) {
                         ed.putString("pass", newPass);
                         ed.commit();
                         dialog.dismiss();
-                    }else{
+                    } else {
                         edPass.setError("Min 4 Characters");
                     }
 
@@ -352,24 +390,7 @@ public class SettingsAct extends AppCompatActivity {
                 return false;
             }
         });
-//        Button bProceed = (Button) promptsView.findViewById(R.id.b_proceed);
-//        bProceed.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-////                String confirmPin = "";
-////                if (newPin.length() == 4) {
-////                    Toast.makeText(context, "Confirm Pin", Toast.LENGTH_SHORT).show();
-////                    edPin.setText("");
-////                    confirmPin = edPin.getText().toString();
-////                }
-////                if (newPin.equals(newPin)) {
-//
-////                } else {
-////                    Toast.makeText(context, "Pin Mismatch", Toast.LENGTH_SHORT).show();
-////                }
-//            }
-//        });
+
         dialog = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
         dialog.setCanceledOnTouchOutside(false);
         dialog.setCancelable(false);
@@ -423,4 +444,29 @@ public class SettingsAct extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onBackPressed() {
+        if (lockType.contains("Pattern")) {
+            super.onBackPressed();
+        }
+        if (lockType.contains("Pin")) {
+            String pin = pref.getString("pin", "");
+            if (pin.length() > 0) {
+                super.onBackPressed();
+            } else {
+                Toast.makeText(context, "Please set Pin first", Toast.LENGTH_SHORT).show();
+            }
+
+        } else if (lockType.contains("Alphabet")) {
+            String pass = pref.getString("pass", "");
+            if (pass.length() > 0) {
+                super.onBackPressed();
+            } else {
+                Toast.makeText(context, "Please set Password first", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+
+        }
+
+    }
 }

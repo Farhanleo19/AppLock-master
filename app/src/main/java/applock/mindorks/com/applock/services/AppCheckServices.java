@@ -23,8 +23,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -35,6 +33,7 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.takwolf.android.lock9.Lock9View;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.Timer;
@@ -42,6 +41,7 @@ import java.util.TimerTask;
 import java.util.TreeMap;
 
 import applock.mindorks.com.applock.Activity.MyAct;
+import applock.mindorks.com.applock.Adapter.LockedApplicationListAdapter;
 import applock.mindorks.com.applock.AppLockApplication;
 import applock.mindorks.com.applock.AppLockConstants;
 import applock.mindorks.com.applock.Custom.FlatButton;
@@ -74,6 +74,7 @@ public class AppCheckServices extends Service {
     SharedPreferences prefs;
     SharedPreferences.Editor ed;
     String lockType = "";
+    public static ArrayList<String> fakeLockedList = new ArrayList<String>();
 
     @Override
     public void onCreate() {
@@ -121,8 +122,27 @@ public class AppCheckServices extends Service {
                 if (imageView != null) {
                     imageView.post(new Runnable() {
                         public void run() {
-                            if (!currentApp.matches(previousApp)) {
-                                fake_lock = prefs.getBoolean("fake_lock", false);
+                            fake_lock = false;
+                            fakeLockedList = sharedPreference.getFakeLocked(context);
+                            if (fakeLockedList != null && fakeLockedList.size() > 0) {
+                                for (int i = 0; i < fakeLockedList.size(); i++) {
+                                    String fakeApp = "";
+                                    fakeApp = fakeLockedList.get(i);
+                                    if (currentApp.matches(fakeApp)) {
+                                        fake_lock = true;
+                                        break;
+                                    } else {
+                                        fake_lock = false;
+                                    }
+                                }
+
+//                            fake_lock = prefs.getBoolean("fake_lock", false);
+                                if (!currentApp.matches(previousApp) && fake_lock) {
+                                    showFakeLockDialog();
+                                }
+                            }
+                            if (!currentApp.matches(previousApp) && fake_lock==false) {
+
                                 // Getting Saved Preferences
                                 lockType = prefs.getString("lock_type", "");
                                 Log.i("type_select", lockType);
@@ -131,7 +151,7 @@ public class AppCheckServices extends Service {
                                     showPinLockDialog();
                                 } else if (fake_lock) {
                                     // Fake
-                                    showFakeLockDialog();
+
                                 } else if (lockType.contains("Pattern")) {
                                     // Pattern
                                     showUnlockDialog();
@@ -371,38 +391,27 @@ public class AppCheckServices extends Service {
     }
 
     void showAlphabetLockDialog() {
-        // Open Keyboard
-
-//        ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
-        // Open Keyboard
         if (context == null)
             context = getApplicationContext();
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View promptsView = layoutInflater.inflate(R.layout.alphabet_lock, null);
         TextView tvHeader = (TextView) promptsView.findViewById(R.id.tv_header);
         final EditText edPass = (EditText) promptsView.findViewById(R.id.ed_pass);
-
-
-
         tvHeader.setText("ENTER YOUR PASSWORD");
-//        Button bProceed = (Button) promptsView.findViewById(R.id.b_proceed);
-        edPass.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
-                    String passPref = prefs.getString("pass", "");
-                    String pass = edPass.getText().toString();
-
-                    if (pass.equals(passPref)) {
-                        dialog.dismiss();
-                        AppLockLogEvents.logEvents(AppLockConstants.PASSWORD_CHECK_SCREEN, "Correct Password", "correct_password", "");
-                    } else {
-                        Toast.makeText(context, "WRONG PASSWORD", Toast.LENGTH_SHORT).show();
-                    }
+        Button bProceed = (Button) promptsView.findViewById(R.id.b_proceed);
+        bProceed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String passPref = prefs.getString("pass", "");
+                String pass = edPass.getText().toString();
+                if (pass.equals(passPref)) {
+                    dialog.dismiss();
+                    AppLockLogEvents.logEvents(AppLockConstants.PASSWORD_CHECK_SCREEN, "Correct Password", "correct_password", "");
+                } else {
+                    Toast.makeText(context, "WRONG PASSWORD", Toast.LENGTH_SHORT).show();
                 }
-                return false;
             }
         });
-
 
         dialog = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
         dialog.setCanceledOnTouchOutside(false);
@@ -412,7 +421,6 @@ public class AppCheckServices extends Service {
         dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         dialog.setContentView(promptsView);
         dialog.getWindow().setGravity(Gravity.CENTER);
-        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 
         dialog.setOnKeyListener(new Dialog.OnKeyListener() {
             @Override
@@ -432,7 +440,6 @@ public class AppCheckServices extends Service {
 
         dialog.show();
 
-
     }
 
     void showFakeLockDialog() {
@@ -446,11 +453,12 @@ public class AppCheckServices extends Service {
         bOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
+
                 Intent startMain = new Intent(Intent.ACTION_MAIN);
                 startMain.addCategory(Intent.CATEGORY_HOME);
                 startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(startMain);
+                dialog.dismiss();
             }
         });
 

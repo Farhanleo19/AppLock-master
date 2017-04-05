@@ -15,8 +15,10 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.takwolf.android.lock9.Lock9View;
 
+import applock.mindorks.com.applock.Activity.SettingsAct;
 import applock.mindorks.com.applock.Custom.FlatButton;
 import applock.mindorks.com.applock.Utils.AppLockLogEvents;
+import applock.mindorks.com.applock.services.AppCheckServices;
 
 /**
  * Created by amitshekhar on 30/04/15.
@@ -63,7 +65,8 @@ public class PasswordSetActivity extends AppCompatActivity {
 
 //                Intent i = new Intent(PasswordSetActivity.this, PasswordRecoverSetActivity.class);
 //                startActivity(i);
-                ed.putString("lock_type","Pattern");
+                context.startService(new Intent(context, AppCheckServices.class));
+                ed.putString("lock_type","Pattern Lock");
                 ed.putBoolean("run_status", false);
                 ed.commit();
                 finish();
@@ -122,5 +125,18 @@ public class PasswordSetActivity extends AppCompatActivity {
         GoogleAnalytics.getInstance(context).reportActivityStop(this);
         super.onStop();
         super.onStop();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(SettingsAct.changePass){
+            super.onBackPressed();
+        }else{
+            Intent startMain = new Intent(Intent.ACTION_MAIN);
+            startMain.addCategory(Intent.CATEGORY_HOME);
+            startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(startMain);
+        }
+
     }
 }

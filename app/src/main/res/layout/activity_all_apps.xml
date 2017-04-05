@@ -35,10 +35,11 @@
             android:gravity="right|center"
             android:text="Select All"
             android:textColor="@android:color/white"
+
             android:textStyle="bold"
             android:layout_marginRight="@dimen/_5sdp"
             android:textSize="@dimen/_15sdp"
-            android:id="@+id/switch1" />
+            android:id="@+id/switch_all" />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView

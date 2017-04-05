@@ -19,6 +19,7 @@ import applock.mindorks.com.applock.Adapter.LockedApplicationListAdapter;
 import applock.mindorks.com.applock.AppLockConstants;
 import applock.mindorks.com.applock.MainActivity;
 import applock.mindorks.com.applock.R;
+import applock.mindorks.com.applock.Utils.SharedPreference;
 
 /**
  * Created by farhanbutt19@gmail.com on 3/24/2017.
@@ -29,6 +30,7 @@ public class AppLockFrag extends Fragment {
     public static RecyclerView mRecyclerView;
     public static RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    SharedPreference sharedPreference;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,6 +38,8 @@ public class AppLockFrag extends Fragment {
 
         View rootView = inflater.inflate(R.layout.app_lock_frag, container, false);
         context = this.getActivity();
+        sharedPreference = new SharedPreference();
+        LockedApplicationListAdapter.fakeLockedList = sharedPreference.getFakeLocked(context);
         bPlus = (Button) rootView.findViewById(R.id.b_plus);
 
         bPlus.setOnClickListener(new View.OnClickListener() {

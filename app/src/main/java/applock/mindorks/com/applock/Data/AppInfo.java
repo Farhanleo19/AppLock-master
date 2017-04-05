@@ -11,6 +11,16 @@ public class AppInfo {
     private String name;
     private String packageName;
     private String versionName;
+
+    public boolean isFake() {
+        return fake;
+    }
+
+    public void setFake(boolean fake) {
+        this.fake = fake;
+    }
+
+    boolean fake = false;
     private int versionCode = 0;
     private Drawable icon;
 

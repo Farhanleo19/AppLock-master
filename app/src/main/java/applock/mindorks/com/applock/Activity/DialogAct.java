@@ -27,26 +27,20 @@ public class DialogAct extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dialog);
+        setContentView(R.layout.dialog_enable_service);
         context = DialogAct.this;
         pref = getSharedPreferences("applock", MODE_PRIVATE);
         applock = pref.getBoolean("applock", false);
         ed = pref.edit();
-        // custom dialog
-        final Dialog dialog = new Dialog(DialogAct.this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_enable_service);
-//        dialog.setTitle("Title...");
 
-
-        final Button bEnable = (Button) dialog.findViewById(R.id.b_enable);
-        Button bMain = (Button) dialog.findViewById(R.id.b_main);
+        final Button bEnable = (Button) findViewById(R.id.b_enable);
+        Button bMain = (Button) findViewById(R.id.b_main);
         if (applock) {
 
-            bEnable.setText("Disable AppLock");
+            bEnable.setText("Enable AppLock");
 
         } else {
-            bEnable.setText("Enable AppLock");
+            bEnable.setText("Disable AppLock");
         }
         // if button is clicked, close the custom dialog
         bEnable.setOnClickListener(new View.OnClickListener() {
@@ -68,17 +62,14 @@ public class DialogAct extends AppCompatActivity {
                     bEnable.setText("Enable Applock");
                     Toast.makeText(context, "Disabled", Toast.LENGTH_SHORT).show();
                 }
-                dialog.dismiss();
                 finish();
             }
         });
 
-        dialog.show();
         bMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(context, MyAct.class));
-                dialog.dismiss();
                 finish();
             }
         });

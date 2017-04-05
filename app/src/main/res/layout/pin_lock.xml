@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/_20sdp"
-        android:text="TYPE YOU SECURITY PIN"
+        android:text="TYPE YOUR SECURITY PIN"
         android:textColor="@color/white"
         android:textSize="@dimen/_20sdp" />
 
@@ -35,7 +35,7 @@
                 android:layout_marginLeft="@dimen/_20sdp"
                 android:gravity="center"
                 android:hint="Your Pin"
-                android:inputType="number"
+                android:inputType="numberPassword"
                 android:focusable="false"
                 android:maxLength="4"
                 android:textColor="@color/white" />

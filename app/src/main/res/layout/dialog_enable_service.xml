@@ -10,10 +10,18 @@
         android:layout_height="match_parent"
         android:gravity="center">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView2"
+            android:src="@drawable/lock_btn"
+            android:layout_gravity="center_horizontal" />
+
         <Button
             android:width="@dimen/_180sdp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
             android:text="Enable AppLock"
             android:textColor="@color/white"
             android:background="@color/primary"

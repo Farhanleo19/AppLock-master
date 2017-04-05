@@ -112,7 +112,12 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".Activity.FakeAct" />
         <activity android:name=".Activity.SettingsAct" />
-        <activity android:name=".Activity.DialogAct"></activity>
+
+
+
+        <activity
+            android:name=".Activity.DialogAct"
+            android:theme="@style/Theme.MyDialog" />
     </application>
 
 </manifest>

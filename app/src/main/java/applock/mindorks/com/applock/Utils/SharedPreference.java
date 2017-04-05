@@ -87,7 +87,7 @@ public class SharedPreference {
     }
 
     public void removeFakeLocked(Context context, String app) {
-        ArrayList<String> locked = getLocked(context);
+        ArrayList<String> locked = getFakeLocked(context);
         if (locked != null) {
             locked.remove(app);
             saveFakeLocked(context, locked);
