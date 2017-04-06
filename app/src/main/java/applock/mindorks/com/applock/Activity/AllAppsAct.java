@@ -13,6 +13,7 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import applock.mindorks.com.applock.Adapter.ApplicationListAdapter;
 import applock.mindorks.com.applock.Adapter.LockedApplicationListAdapter;
@@ -33,7 +34,7 @@ public class AllAppsAct extends AppCompatActivity {
     SharedPreference sharedPreference;
     Context context;
     Switch switchAll;
-    public static boolean selectAll = false;
+    public static boolean selectAll = false, UnSelectAll = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,62 +92,18 @@ public class AllAppsAct extends AppCompatActivity {
 
             }
         });
-        if (selectAll) {
-//            switchAll.setChecked(true);
-        }
+
         switchAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if (isChecked) {
-//                    selectAll = true;
-//                    ArrayList<String> lockedApps = sharedPreference.getLocked(context);
-//                    boolean add = false;
-//                    if (lockedApps.size() == 0) {
-//                        for (int i = 0; i < ApplicationListAdapter.installedApps.size(); i++) {
-//                            final AppInfo appInfo = ApplicationListAdapter.installedApps.get(i);
-//                            AppLockLogEvents.logEvents(AppLockConstants.MAIN_SCREEN, "Lock Clicked", "lock_clicked", appInfo.getPackageName());
-//                            sharedPreference.addLocked(context, appInfo.getPackageName());
-//                        }
-//
-//                    } else {
-//                        for (int i = 0; i < ApplicationListAdapter.installedApps.size(); i++) {
-//
-//                            final AppInfo appInfo = ApplicationListAdapter.installedApps.get(i);
-//
-//
-//                            for (int j = 0; j < lockedApps.size(); j++) {
-//                                if (sharedPreference.getLocked(context).get(j).matches(appInfo.getPackageName())) {
-//                                    add = true;
-//                                    break;
-//
-//                                } else {
-//                                    add = false;
-//                                    break;
-//
-//                                }
-//                            }
-//                            if (add) {
-//
-//                            } else {
-//                                AppLockLogEvents.logEvents(AppLockConstants.MAIN_SCREEN, "Lock Clicked", "lock_clicked", appInfo.getPackageName());
-//                                sharedPreference.addLocked(context, appInfo.getPackageName());
-//                            }
-//                        }
-//
-//
-//                    }
-//                    mAdapter.notifyDataSetChanged();
-//
-//                } else {
-//                    selectAll = false;
-////                    mAdapter.notifyDataSetChanged();
-//                    for (int i = 0; i < ApplicationListAdapter.installedApps.size(); i++) {
-//                        final AppInfo appInfo = ApplicationListAdapter.installedApps.get(i);
-//                        AppLockLogEvents.logEvents(AppLockConstants.MAIN_SCREEN, "Unlock Clicked", "unlock_clicked", appInfo.getPackageName());
-//                        sharedPreference.removeLocked(context, appInfo.getPackageName());
-//                    }
-//                    mAdapter.notifyDataSetChanged();
-//                }
+                if (isChecked) {
+                   selectAllPackages();
+
+
+                } else {
+
+                    unSelectAllPkg();
+                }
             }
         });
     }
@@ -158,5 +115,58 @@ public class AllAppsAct extends AppCompatActivity {
         AppLockFrag.mAdapter = new LockedApplicationListAdapter((MainActivity.getListOfInstalledApp(context)), context, AppLockConstants.LOCKED);
         AppLockFrag.mRecyclerView.setAdapter(AppLockFrag.mAdapter);
         AppLockFrag.mAdapter.notifyDataSetChanged();
+    }
+
+
+
+    public void selectAllPackages() {
+        List<String> apps = new ArrayList<>();
+       // if (sharedPreference.getLocked(context) != null)
+         //   apps = sharedPreference.getLocked(context);
+
+        for (int i = 0; i < ApplicationListAdapter.installedApps.size(); i++) {
+            if(!isPackgeAdded(ApplicationListAdapter.installedApps.get(i).getPackageName())) {
+                //apps.add(ApplicationListAdapter.installedApps.get(i).getPackageName());
+                sharedPreference.addLocked(context, ApplicationListAdapter.installedApps.get(i).getPackageName());
+            }
+
+
+            if(i==ApplicationListAdapter.installedApps.size()-1)
+            {
+                mAdapter.notifyDataSetChanged();
+            }
+        }
+
+    }
+    public boolean isPackgeAdded(String appName) {
+        List<String> apps = new ArrayList<>();
+        if (sharedPreference.getLocked(context) != null)
+         apps = sharedPreference.getLocked(context);
+        for (int i = 0; i < apps.size(); i++) {
+            if (appName.equals(apps.get(i))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void unSelectAllPkg()
+    {
+        List<String> apps = new ArrayList<>();
+        if (sharedPreference.getLocked(context) != null)
+            apps = sharedPreference.getLocked(context);
+
+
+        for(int i=0;i<apps.size();i++) {
+            if (isPackgeAdded(apps.get(i)))
+                sharedPreference.removeLocked(context, apps.get(i));
+
+
+            if(i==apps.size()-1)
+            {
+                mAdapter.notifyDataSetChanged();
+            }
+        }
+
     }
 }

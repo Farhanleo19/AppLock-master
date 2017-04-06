@@ -23,6 +23,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -40,6 +41,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.TreeMap;
 
+import applock.mindorks.com.applock.Activity.FakeAct;
 import applock.mindorks.com.applock.Activity.MyAct;
 import applock.mindorks.com.applock.Adapter.LockedApplicationListAdapter;
 import applock.mindorks.com.applock.AppLockApplication;
@@ -138,10 +140,13 @@ public class AppCheckServices extends Service {
 
 //                            fake_lock = prefs.getBoolean("fake_lock", false);
                                 if (!currentApp.matches(previousApp) && fake_lock) {
+
                                     showFakeLockDialog();
+
+
                                 }
                             }
-                            if (!currentApp.matches(previousApp) && fake_lock==false) {
+                            if (!currentApp.matches(previousApp) && fake_lock == false) {
 
                                 // Getting Saved Preferences
                                 lockType = prefs.getString("lock_type", "");
@@ -216,7 +221,7 @@ public class AppCheckServices extends Service {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.pin_lock, null);
         TextView tvHeader = (TextView) view.findViewById(R.id.tv_header);
-        tvHeader.setText("TYPE YOU SECURITY PIN");
+        tvHeader.setText("TYPE YOUR SECURITY PIN");
         final EditText edPin = (EditText) view.findViewById(R.id.ed_pin);
 
         ImageView ivKey1, ivKey2, ivKey3, ivKey4, ivKey5, ivKey6, ivKey7, ivKey8, ivKey9, ivKey0, ivKeyDel, ivKeyEnter;
@@ -398,20 +403,13 @@ public class AppCheckServices extends Service {
         TextView tvHeader = (TextView) promptsView.findViewById(R.id.tv_header);
         final EditText edPass = (EditText) promptsView.findViewById(R.id.ed_pass);
         tvHeader.setText("ENTER YOUR PASSWORD");
-        Button bProceed = (Button) promptsView.findViewById(R.id.b_proceed);
-        bProceed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String passPref = prefs.getString("pass", "");
-                String pass = edPass.getText().toString();
-                if (pass.equals(passPref)) {
-                    dialog.dismiss();
-                    AppLockLogEvents.logEvents(AppLockConstants.PASSWORD_CHECK_SCREEN, "Correct Password", "correct_password", "");
-                } else {
-                    Toast.makeText(context, "WRONG PASSWORD", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+//        Button bProceed = (Button) promptsView.findViewById(R.id.b_proceed);
+//        bProceed.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
 
         dialog = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
         dialog.setCanceledOnTouchOutside(false);
@@ -421,7 +419,7 @@ public class AppCheckServices extends Service {
         dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         dialog.setContentView(promptsView);
         dialog.getWindow().setGravity(Gravity.CENTER);
-
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         dialog.setOnKeyListener(new Dialog.OnKeyListener() {
             @Override
             public boolean onKey(DialogInterface dialog, int keyCode,
@@ -437,12 +435,28 @@ public class AppCheckServices extends Service {
                 return true;
             }
         });
-
+        edPass.requestFocus();
+        edPass.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
+                    String passPref = prefs.getString("pass", "");
+                    String pass = edPass.getText().toString();
+                    if (pass.equals(passPref)) {
+                        dialog.dismiss();
+                        AppLockLogEvents.logEvents(AppLockConstants.PASSWORD_CHECK_SCREEN, "Correct Password", "correct_password", "");
+                    } else {
+                        Toast.makeText(context, "WRONG PASSWORD", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                return false;
+            }
+        });
         dialog.show();
 
     }
 
     void showFakeLockDialog() {
+
         if (context == null)
             context = getApplicationContext();
         LayoutInflater layoutInflater = LayoutInflater.from(context);

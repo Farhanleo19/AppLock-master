@@ -123,14 +123,14 @@ public class MyAct extends AppCompatActivity implements TabLayout.OnTabSelectedL
 //        intent.putExtra("detailID", pos);
 
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
         mBuilder.setContentTitle(context.getResources().getString(R.string.app_name));
         mBuilder.setContentText("App lock is running");
         mBuilder.setTicker(context.getResources().getString(R.string.app_name));
         mBuilder.setWhen(System.currentTimeMillis());
         mBuilder.setContentIntent(pendingIntent);
-        mBuilder.setDefaults(Notification.DEFAULT_SOUND);
+//        mBuilder.setDefaults(Notification.DEFAULT_SOUND);
         mBuilder.setAutoCancel(false);
         mBuilder.setOngoing(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -142,11 +142,11 @@ public class MyAct extends AppCompatActivity implements TabLayout.OnTabSelectedL
         mBuilder.build();
         notification = mBuilder.build();
 //        notification.flags |= Notification.FLAG_AUTO_CANCEL;
-        notification.defaults = Notification.DEFAULT_SOUND | Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE;
+//        notification.defaults = Notification.DEFAULT_SOUND | Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE;
 //        if (sharedPref.getTajweed_Notification() == true) {
         NotificationManager nm = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
-        nm.notify(1315, notification);
+        nm.notify(0, notification);
 
 //        }
     }

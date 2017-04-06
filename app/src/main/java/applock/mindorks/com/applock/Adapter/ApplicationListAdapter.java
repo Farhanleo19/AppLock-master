@@ -30,6 +30,7 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
     private Context context;
     SharedPreference sharedPreference;
     String requiredAppsType;
+    List<String> apps = new ArrayList<>();
 //    public static ArrayList<String> checkedList = new ArrayList<String>();
 //    public static ArrayList<String> unCheckedList = new ArrayList<String>();
 
@@ -96,6 +97,11 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
                 installedApps.addAll(unlockedFilteredAppList);
             }
         }
+
+
+        if (sharedPreference.getLocked(context) != null)
+            apps = sharedPreference.getLocked(context);
+
     }
 
     // Create new views (invoked by the layout manager)
@@ -133,34 +139,30 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
         } else {
             holder.switchView.setChecked(false);
         }
-        if(AllAppsAct.selectAll){
-            holder.switchView.setChecked(true);
 
-        }
+
 
         holder.switchView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-//                    checkedList.add(appInfo.getPackageName());
-
                     AppLockLogEvents.logEvents(AppLockConstants.MAIN_SCREEN, "Lock Clicked", "lock_clicked", appInfo.getPackageName());
-                    sharedPreference.addLocked(context, appInfo.getPackageName());
+
+                    if (!isPackgeAdded(appInfo.getPackageName()))
+                        sharedPreference.addLocked(context, appInfo.getPackageName());
+
 
                 } else {
-//                    unCheckedList.add(appInfo.getPackageName());
+
 
                     AppLockLogEvents.logEvents(AppLockConstants.MAIN_SCREEN, "Unlock Clicked", "unlock_clicked", appInfo.getPackageName());
-                    sharedPreference.removeLocked(context, appInfo.getPackageName());
+
+                    if (isPackgeAdded(appInfo.getPackageName()))
+                        sharedPreference.removeLocked(context, appInfo.getPackageName());
                 }
             }
         });
 
-//        holder.cardView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                holder.switchView.performClick();
-//            }
-//        });
+
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -184,4 +186,12 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
         return check;
     }
 
+    public boolean isPackgeAdded(String appName) {
+        for (int i = 0; i < apps.size(); i++) {
+            if (appName.equals(apps.get(i))) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

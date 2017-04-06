@@ -22,12 +22,13 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/_30sdp"
+        android:clickable="false"
         android:ems="10"
         android:gravity="center"
-        android:textColor="@color/white"
         android:inputType="text"
         android:maxLength="15"
-        android:singleLine="true">
+        android:singleLine="true"
+        android:textColor="@color/white">
 
         <requestFocus />
     </EditText>
