@@ -428,10 +428,10 @@ public class SettingsAct extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             // action with ID action_refresh was selected
-            case R.id.action_lock:
-                Toast.makeText(this, "Lock", Toast.LENGTH_SHORT)
-                        .show();
-                break;
+//            case R.id.action_lock:
+//                Toast.makeText(this, "Lock", Toast.LENGTH_SHORT)
+//                        .show();
+//                break;
             // action with ID action_settings was selected
             case R.id.action_share:
                 Toast.makeText(this, "Share", Toast.LENGTH_SHORT)

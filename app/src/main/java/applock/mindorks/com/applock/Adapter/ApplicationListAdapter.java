@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.Switch;
+import android.support.v7.widget.SwitchCompat;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,14 +43,14 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
         public TextView applicationName;
         //        public CardView cardView;
         public ImageView icon;
-        public Switch switchView;
+        public SwitchCompat switchView;
 
         public ViewHolder(View v) {
             super(v);
             applicationName = (TextView) v.findViewById(R.id.applicationName);
 //            cardView = (CardView) v.findViewById(R.id.card_view);
             icon = (ImageView) v.findViewById(R.id.icon);
-            switchView = (Switch) v.findViewById(R.id.switchView);
+            switchView = (SwitchCompat) v.findViewById(R.id.switchView);
         }
     }
 

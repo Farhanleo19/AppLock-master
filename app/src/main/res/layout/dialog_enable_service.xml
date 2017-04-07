@@ -2,12 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:background="@android:color/transparent"
+    android:gravity="center"
     android:layout_height="match_parent">
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="@dimen/_300sdp"
+        android:layout_height="@dimen/_250sdp"
+        android:background="@color/white"
         android:gravity="center">
 
         <ImageView
@@ -19,7 +21,7 @@
 
         <Button
             android:width="@dimen/_180sdp"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/_200sdp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
             android:text="Enable AppLock"
@@ -28,7 +30,7 @@
             android:id="@+id/b_enable" />
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/_200sdp"
             android:layout_height="wrap_content"
             android:width="@dimen/_180sdp"
             android:textColor="@color/white"

@@ -22,8 +22,8 @@
         android:layout_height="72dp"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
-        android:gravity="center"
         android:background="@drawable/boarder"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <ImageView
@@ -33,7 +33,6 @@
             android:layout_gravity="center" />
 
         <TextView
-            android:textColor="@color/black"
             android:id="@+id/applicationName"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -41,12 +40,14 @@
             android:layout_weight="1"
             android:gravity="left|center"
             android:text="Gallery"
+            android:textColor="@color/black"
             android:textSize="20dp" />
 
-        <Switch
+        <android.support.v7.widget.SwitchCompat
             android:id="@+id/switchView"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:theme="@style/MySwitch" />
 
     </LinearLayout>
 

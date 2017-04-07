@@ -119,6 +119,9 @@
         <activity
             android:name=".Activity.DialogAct"
             android:theme="@style/Theme.MyDialog" />
+        <activity
+            android:name=".Activity.DialogActFake"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

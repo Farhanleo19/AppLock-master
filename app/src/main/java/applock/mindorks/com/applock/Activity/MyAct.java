@@ -134,11 +134,11 @@ public class MyAct extends AppCompatActivity implements TabLayout.OnTabSelectedL
         mBuilder.setAutoCancel(false);
         mBuilder.setOngoing(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mBuilder.setSmallIcon(R.drawable.passward_icon);
+            mBuilder.setSmallIcon(R.drawable.pass_icon);
         } else {
-            mBuilder.setSmallIcon(R.drawable.passward_icon);
+            mBuilder.setSmallIcon(R.drawable.pass_icon);
         }
-        mBuilder.setLargeIcon(BitmapFactory.decodeResource(this.context.getResources(), R.drawable.passward_btn_on));
+        mBuilder.setLargeIcon(BitmapFactory.decodeResource(this.context.getResources(), R.drawable.pass_icon));
         mBuilder.build();
         notification = mBuilder.build();
 //        notification.flags |= Notification.FLAG_AUTO_CANCEL;
@@ -177,10 +177,10 @@ public class MyAct extends AppCompatActivity implements TabLayout.OnTabSelectedL
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             // action with ID action_refresh was selected
-            case R.id.action_lock:
-                Toast.makeText(this, "Lock", Toast.LENGTH_SHORT)
-                        .show();
-                break;
+//            case R.id.action_lock:
+//                Toast.makeText(this, "Lock", Toast.LENGTH_SHORT)
+//                        .show();
+//                break;
             // action with ID action_settings was selected
             case R.id.action_share:
                 Toast.makeText(this, "Share", Toast.LENGTH_SHORT)

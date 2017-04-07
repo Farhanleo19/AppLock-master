@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -33,7 +34,7 @@ public class AllAppsAct extends AppCompatActivity {
     public static Button bDone;
     SharedPreference sharedPreference;
     Context context;
-    Switch switchAll;
+    SwitchCompat switchAll;
     public static boolean selectAll = false, UnSelectAll = false;
 
     @Override
@@ -43,7 +44,7 @@ public class AllAppsAct extends AppCompatActivity {
 
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         bDone = (Button) findViewById(R.id.b_done);
-        switchAll = (Switch) findViewById(R.id.switch_all);
+        switchAll = (SwitchCompat) findViewById(R.id.switch_all);
         context = AllAppsAct.this;
 
         // use this setting to improve performance if you know that changes
