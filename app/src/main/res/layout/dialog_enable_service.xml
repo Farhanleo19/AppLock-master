@@ -7,16 +7,16 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="@dimen/_300sdp"
-        android:layout_height="@dimen/_250sdp"
+        android:layout_width="@dimen/_280sdp"
+        android:layout_height="@dimen/_220sdp"
         android:background="@color/white"
         android:gravity="center">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_80sdp"
             android:id="@+id/imageView2"
-            android:src="@drawable/lock_btn"
+            android:src="@drawable/dialog_icon"
             android:layout_gravity="center_horizontal" />
 
         <Button

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import applock.mindorks.com.applock.Activity.AllAppsAct;
@@ -68,7 +69,12 @@ public class AppLockFrag extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
         mAdapter.notifyDataSetChanged();
+        if (AllAppsAct.dialog != null) {
+            if( AllAppsAct.dialog.isShowing()){
+                AllAppsAct.dialog.dismiss();
+            }
+
+        }
     }
 }

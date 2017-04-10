@@ -13,6 +13,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/_40sdp"
         android:text="ENTER PASSWORD TO UNLOCK"
+        android:fontFamily="sans-serif"
         android:textColor="@color/white"
         android:textSize="@dimen/_20sdp" />
 
@@ -25,6 +26,7 @@
         android:clickable="false"
         android:ems="10"
         android:gravity="center"
+        android:fontFamily="sans-serif"
         android:inputType="text"
         android:maxLength="15"
         android:singleLine="true"

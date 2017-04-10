@@ -144,7 +144,7 @@ public class AppCheckServices extends Service {
                                 if (!currentApp.matches(previousApp) && fake_lock) {
 
                                     showFakeLockDialog();
-
+                                    previousApp = currentApp;
 
                                 }
                             }

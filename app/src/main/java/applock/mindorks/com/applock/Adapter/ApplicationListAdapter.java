@@ -1,5 +1,6 @@
 package applock.mindorks.com.applock.Adapter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -76,6 +77,7 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
         boolean flag = true;
         if (requiredAppsType.matches(AppLockConstants.LOCKED) || requiredAppsType.matches(AppLockConstants.UNLOCKED)) {
             for (int i = 0; i < installedApps.size(); i++) {
+
                 flag = true;
                 if (sharedPreference.getLocked(context) != null) {
                     for (int j = 0; j < sharedPreference.getLocked(context).size(); j++) {
@@ -177,6 +179,7 @@ public class ApplicationListAdapter extends RecyclerView.Adapter<ApplicationList
         List<String> locked = sharedPreference.getLocked(context);
         if (locked != null) {
             for (String lock : locked) {
+
                 if (lock.equals(checkApp)) {
                     check = true;
                     break;

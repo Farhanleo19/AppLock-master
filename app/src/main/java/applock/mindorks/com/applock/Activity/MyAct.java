@@ -134,11 +134,11 @@ public class MyAct extends AppCompatActivity implements TabLayout.OnTabSelectedL
         mBuilder.setAutoCancel(false);
         mBuilder.setOngoing(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mBuilder.setSmallIcon(R.drawable.pass_icon);
+            mBuilder.setSmallIcon(R.mipmap.ic_launcher);
         } else {
-            mBuilder.setSmallIcon(R.drawable.pass_icon);
+            mBuilder.setSmallIcon(R.mipmap.ic_launcher);
         }
-        mBuilder.setLargeIcon(BitmapFactory.decodeResource(this.context.getResources(), R.drawable.pass_icon));
+        mBuilder.setLargeIcon(BitmapFactory.decodeResource(this.context.getResources(), R.mipmap.ic_launcher));
         mBuilder.build();
         notification = mBuilder.build();
 //        notification.flags |= Notification.FLAG_AUTO_CANCEL;

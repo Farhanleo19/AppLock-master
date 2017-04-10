@@ -86,6 +86,7 @@ public class LockedApplicationListAdapter extends RecyclerView.Adapter<LockedApp
         boolean flag = true;
         if (requiredAppsType.matches(AppLockConstants.LOCKED) || requiredAppsType.matches(AppLockConstants.UNLOCKED)) {
             for (int i = 0; i < allApps.size(); i++) {
+
                 flag = true;
                 if (sharedPreference.getLocked(context) != null) {
                     for (int j = 0; j < sharedPreference.getLocked(context).size(); j++) {
@@ -227,5 +228,8 @@ public class LockedApplicationListAdapter extends RecyclerView.Adapter<LockedApp
         }
         return check;
     }
+
+
+
 
 }

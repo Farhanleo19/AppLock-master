@@ -1,5 +1,6 @@
 package applock.mindorks.com.applock.Activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -36,7 +37,7 @@ public class AllAppsAct extends AppCompatActivity {
     Context context;
     SwitchCompat switchAll;
     public static boolean selectAll = false, UnSelectAll = false;
-
+    public static ProgressDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +47,6 @@ public class AllAppsAct extends AppCompatActivity {
         bDone = (Button) findViewById(R.id.b_done);
         switchAll = (SwitchCompat) findViewById(R.id.switch_all);
         context = AllAppsAct.this;
-
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
@@ -70,22 +70,10 @@ public class AllAppsAct extends AppCompatActivity {
         bDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (ApplicationListAdapter.checkedList != null && ApplicationListAdapter.checkedList.size() > 0) {
-//                    for (int i = 0; i < ApplicationListAdapter.checkedList.size(); i++) {
-//                        String app = ApplicationListAdapter.checkedList.get(i);
-//                        AppLockLogEvents.logEvents(AppLockConstants.MAIN_SCREEN, "Lock Clicked", "lock_clicked", app);
-//                        sharedPreference.addLocked(context, app);
-//                    }
-//                    ApplicationListAdapter.checkedList.clear();
-//                }
-//                if (ApplicationListAdapter.unCheckedList != null && ApplicationListAdapter.unCheckedList.size() > 0) {
-//                    for (int j = 0; j < ApplicationListAdapter.unCheckedList.size(); j++) {
-//                        String app = ApplicationListAdapter.unCheckedList.get(j);
-//                        AppLockLogEvents.logEvents(AppLockConstants.MAIN_SCREEN, "Unlock Clicked", "unlock_clicked", app);
-//                        sharedPreference.removeLocked(context, app);
-//                    }
-//                    ApplicationListAdapter.unCheckedList.clear();
-//                }
+
+                dialog = new ProgressDialog(context);
+                dialog.setMessage("Securing Content . . .");
+                dialog.show();
                 AppLockFrag.mAdapter = new LockedApplicationListAdapter((MainActivity.getListOfInstalledApp(context)), context, AppLockConstants.LOCKED);
                 AppLockFrag.mRecyclerView.setAdapter(AppLockFrag.mAdapter);
                 AppLockFrag.mAdapter.notifyDataSetChanged();
@@ -98,7 +86,8 @@ public class AllAppsAct extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                   selectAllPackages();
+
+                    selectAllPackages();
 
 
                 } else {
@@ -112,6 +101,10 @@ public class AllAppsAct extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
+
+        dialog = new ProgressDialog(context);
+        dialog.setMessage("Securing Content . . .");
+        dialog.show();
         super.onBackPressed();
         AppLockFrag.mAdapter = new LockedApplicationListAdapter((MainActivity.getListOfInstalledApp(context)), context, AppLockConstants.LOCKED);
         AppLockFrag.mRecyclerView.setAdapter(AppLockFrag.mAdapter);
@@ -119,30 +112,40 @@ public class AllAppsAct extends AppCompatActivity {
     }
 
 
-
     public void selectAllPackages() {
         List<String> apps = new ArrayList<>();
-       // if (sharedPreference.getLocked(context) != null)
-         //   apps = sharedPreference.getLocked(context);
+        // if (sharedPreference.getLocked(context) != null)
+        //   apps = sharedPreference.getLocked(context);
+//        final ProgressDialog pd = new ProgressDialog(this);
+//        pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//        pd.setMessage("Securing Content. . .");
+//        pd.setIndeterminate(true);
+//        pd.setCancelable(false);
+//        pd.show();
+
 
         for (int i = 0; i < ApplicationListAdapter.installedApps.size(); i++) {
-            if(!isPackgeAdded(ApplicationListAdapter.installedApps.get(i).getPackageName())) {
+
+            if (!isPackgeAdded(ApplicationListAdapter.installedApps.get(i).getPackageName())) {
                 //apps.add(ApplicationListAdapter.installedApps.get(i).getPackageName());
                 sharedPreference.addLocked(context, ApplicationListAdapter.installedApps.get(i).getPackageName());
             }
 
 
-            if(i==ApplicationListAdapter.installedApps.size()-1)
-            {
+            if (i == ApplicationListAdapter.installedApps.size() - 1) {
                 mAdapter.notifyDataSetChanged();
+
             }
         }
 
+//        pd.dismiss();
+
     }
+
     public boolean isPackgeAdded(String appName) {
         List<String> apps = new ArrayList<>();
         if (sharedPreference.getLocked(context) != null)
-         apps = sharedPreference.getLocked(context);
+            apps = sharedPreference.getLocked(context);
         for (int i = 0; i < apps.size(); i++) {
             if (appName.equals(apps.get(i))) {
                 return true;
@@ -151,20 +154,19 @@ public class AllAppsAct extends AppCompatActivity {
         return false;
     }
 
-    public void unSelectAllPkg()
-    {
+    public void unSelectAllPkg() {
         List<String> apps = new ArrayList<>();
         if (sharedPreference.getLocked(context) != null)
             apps = sharedPreference.getLocked(context);
 
 
-        for(int i=0;i<apps.size();i++) {
+        for (int i = 0; i < apps.size(); i++) {
+
             if (isPackgeAdded(apps.get(i)))
                 sharedPreference.removeLocked(context, apps.get(i));
 
 
-            if(i==apps.size()-1)
-            {
+            if (i == apps.size() - 1) {
                 mAdapter.notifyDataSetChanged();
             }
         }

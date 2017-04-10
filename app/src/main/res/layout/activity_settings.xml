@@ -33,6 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Lock Type"
+            android:fontFamily="sans-serif"
             android:textStyle="bold"
             android:textColor="@color/black"
             android:textSize="@dimen/_20sdp" />
@@ -63,6 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Enabled lock type"
+            android:fontFamily="sans-serif"
             android:textColor="@color/red"
             android:textSize="@dimen/_20sdp" />
 
@@ -85,7 +87,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Change Password"
-            android:textColor="#F7AF0A"
+            android:fontFamily="sans-serif"
+            android:textColor="#b98203"
             android:textSize="@dimen/_20sdp" />
 
 
