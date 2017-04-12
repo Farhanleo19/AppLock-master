@@ -5,11 +5,11 @@ android {
     buildToolsVersion "21.1.2"
 
     defaultConfig {
-        applicationId "applock.mindorks.com.applock"
-        minSdkVersion 16
+        applicationId "com.nineftlearning.AppLock.Security"
+        minSdkVersion 13
         targetSdkVersion 23
-        versionCode 6
-        versionName "1.5"
+        versionCode 1
+        versionName "1.0"
     }
     buildTypes {
         release {
@@ -33,4 +33,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-gcm:7.5.0'
     compile 'com.google.android.gms:play-services-analytics:7.5.0'
     compile 'com.android.support:design:23.1.1'
+    compile 'com.google.android.gms:play-services-ads:7.5.0'
+
+    compile 'com.google.android.gms:play-services-analytics:7.5.0'
 }

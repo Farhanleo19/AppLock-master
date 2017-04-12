@@ -11,17 +11,19 @@
         android:id="@+id/grid_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:horizontalSpacing="@dimen/_5sdp"
         android:layout_margin="@dimen/_10sdp"
+        android:horizontalSpacing="@dimen/_5sdp"
+        android:numColumns="3"
         android:verticalSpacing="@dimen/_10sdp"
-        android:visibility="gone"
-        android:numColumns="3" />
+        android:visibility="gone" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Themes are coming soon . . ."
-        android:textSize="@dimen/_20sdp"
+        android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:fontFamily="sans-serif"
+        android:text="Themes are Coming Soon"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_13sdp" />
 </RelativeLayout>

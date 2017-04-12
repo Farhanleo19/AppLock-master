@@ -6,4 +6,7 @@
     <string name="draw_pattern">Draw Pattern</string>
     <string name="rate_us">Rate us</string>
     <string name="title_activity_my">MyAct</string>
+
+    <string name="banner">ca-app-pub-8285087116767383/3423009353</string>
+    <string name="interstitial">ca-app-pub-8285087116767383/4899742550</string>
 </resources>
